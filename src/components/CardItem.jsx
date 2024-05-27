@@ -28,7 +28,7 @@ const CardItem = ({ grupo, isLoading }) => {
             ) : (
                 <>
                     <img src={quotes} alt="double_quotes" className="w-[42.6px] h-[27.6px] object-contain" />
-                    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-10">
+                    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-10 line-clamp-4">
                         {grupo?.description}
                     </p>
                     <div className="flex flex-row">

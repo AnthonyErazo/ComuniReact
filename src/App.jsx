@@ -3,45 +3,37 @@ import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Hero 
 import Services from "./components/Services"
 import { questions1, questions2 } from "./constants";
 import Testimonials from "./components/Testimonials";
+import { Link, Route, Routes } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import DashboardLayout from "./components/DashboardLayout";
+import Dashboard from "./components/Dashboard";
+import Messages from "./components/Messages";
+import MyGroup from "./components/MyGroup";
+import Notices from "./components/Notices";
+import Users from "./components/Users";
+import AllGroups from "./components/AllGroups";
+import AllNotices from "./components/AllNotices";
+import Profile from "./components/Profile";
 
 const App = () => (
-  <div className="bg-primary w-full overflow-hidden">
-    <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-      <div className={`${styles.boxWidth}`}>
-        <Navbar />
-      </div>
-    </div>
+  <Routes>
+    <Route path="/" element={<MainLayout />} />
 
-    <div className={`bg-primary ${styles.flexStart}`}>
-      <div className={`${styles.boxWidth}`}>
-        <Hero />
-      </div>
-    </div>
-
-    <div className="">
-      <Services />
-    </div>
-    <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
-      <div className={`${styles.boxWidth}`}>
-        <Business
-          title={'¿Qué es COMUNI?'}
-          description={'Descubre y conecta con comunidades estudiantiles de la Universidad Nacional de Ingeniería. Encuentra información sobre objetivos, actividades y contacto.'}
-          questions={questions1}
-          styleQA={layout.sectionQA}
-        />
-
-        <Business
-          title={'¿Qué beneficios obtengo al participar en una comunidad estudiantil?'}
-          description={'Desarrolla habilidades sociales y profesionales, amplía tu red de contactos y vive experiencias enriquecedoras.'}
-          questions={questions2}
-          styleQA={layout.sectionQAReverse}
-        />
-        <Testimonials />
-        <CTA />
-        <Footer />
-      </div>
-    </div>
-  </div>
+    <Route path="/dashboard">
+      <Route path="">
+        <Route path="inicio" element={<Dashboard />} />
+        <Route path="myGroup" element={<MyGroup />} />
+        <Route path="myNotices" element={<Notices />} />
+      </Route>
+      <Route path="groups">
+        <Route path="allGroups" element={<AllGroups />} />
+        <Route path="allNotices" element={<AllNotices />} />
+      </Route>
+      <Route path="profile" element={<Profile />} />
+      <Route path="users" element={<Users />} />
+      <Route path="messages" element={<Messages />} />
+    </Route>
+  </Routes>
 );
 
 export default App;

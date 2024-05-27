@@ -8,7 +8,7 @@ const SvgBlock = ({ svg }) => {
     justifyContent: "center",
     alignItems: "center",
     width: "40%",
-    position: "relative"
+    position: "relative",
   };
 
   const svgStyles = {

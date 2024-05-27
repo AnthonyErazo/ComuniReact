@@ -11,118 +11,6 @@ import SvgBlock from "./SvgBlock";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const serviceSectionStyles = {
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    paddingTop: "20rem",
-};
-
-const backgroundStyles = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    width: "100vw",
-    height: "85vh",
-    zIndex: -1,
-    backgroundColor: "#0a0b10",
-    backgroundSize: "auto 100vh",
-    backgroundRepeat: "no-repeat",
-};
-
-const titleStyles = {
-    color: "var(--white)",
-    display: "inline-block",
-    fontSize: "2rem",
-    marginTop: "1rem",
-    position: "relative",
-};
-
-const titleBeforeStyles = `
-  .title::before {
-    content: "";
-    height: 1px;
-    width: 50%;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, 0.5rem);
-    border-bottom: 2px solid var(--pink);
-  }
-`;
-
-const lineStyles = {
-    borderLeft: "4px solid var(--background)",
-    height: "15rem",
-    marginTop: "2rem",
-    borderRadius: "20px 20px 0 0",
-};
-
-const triangleStyles = {
-    width: 0,
-    height: 0,
-    borderLeft: "1.2rem solid transparent",
-    borderRight: "1.2rem solid transparent",
-    borderTop: "2rem solid var(--background)",
-};
-
-const contentStyles = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    margin: "10rem 10rem",
-    position: "relative",
-};
-
-const contentMediaStyles = `
-  @media only screen and (max-width: 64em) {
-    .content {
-      margin: 10rem calc(4rem + 5vw);
-    }
-  }
-  @media only screen and (max-width: 48em) {
-    .content {
-      display: block;
-    }
-    .content:last-child {
-      margin-bottom: 2rem;
-    }
-  }
-  @media only screen and (max-width: 40em) {
-    .content {
-      margin: 10rem calc(2rem + 3vw);
-    }
-    .content:last-child {
-      margin-bottom: 1rem;
-    }
-  }
-`;
-
-const objStyles = {
-    position: "absolute",
-    top: "80%",
-    right: "35%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "20vw",
-};
-
-const objMediaStyles = `
-  @media only screen and (max-width: 48em) {
-    .obj {
-      opacity: 0.5;
-    }
-  }
-`;
-
 const Services = () => {
     const ref = useRef(null);
     const revealRefs = useRef([]);
@@ -143,7 +31,7 @@ const Services = () => {
 
         t1.fromTo(
             document.getElementById("line"),
-            { height: "15rem" },
+            { height: "15rem"},
             {
                 height: "3rem",
                 duration: 2,
@@ -151,7 +39,7 @@ const Services = () => {
                     trigger: document.getElementById("line"),
                     start: "top top+=200",
                     end: "bottom top+=220",
-                    scrub: true,
+                    scrub: true
                 },
             }
         );
@@ -159,53 +47,57 @@ const Services = () => {
         revealRefs.current.forEach((el, index) => {
             if (mq.matches) {
                 t1.from(el.childNodes[0], {
-                    x: -300,
+                    x: -100,
                     opacity: 0,
                     duration: 2,
                     ease: "power2",
+                    background:'green',
                     scrollTrigger: {
                         id: `section-${index + 1}`,
                         trigger: el,
-                        start: "top center+=200",
-                        end: "bottom bottom-=100",
+                        start: "top center+=100",
+                        end: "bottom bottom-=50",
                         scrub: true,
-                        snap: true,
+                        snap: true
                     },
                 })
                     .to(el.childNodes[1], {
                         transform: "scale(0)",
                         ease: "power2.inOut",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el.childNodes[1],
                             start: "top center",
                             end: "bottom center",
                             scrub: true,
-                            snap: true,
+                            snap: true
                         },
                     })
                     .from(el.childNodes[2], {
                         y: 400,
                         duration: 2,
                         ease: "power2",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el,
                             start: "top center+=100",
                             end: "bottom bottom-=200",
                             scrub: true,
-                            snap: true,
+                            snap: true
                         },
                     })
                     .to(el, {
                         opacity: 0,
                         ease: "power2",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el,
                             start: "top top+=300",
                             end: "center top+=300",
-                            scrub: true,
+                            scrub: true
                         },
                     });
             } else {
@@ -214,18 +106,21 @@ const Services = () => {
                     opacity: 0,
                     duration: 2,
                     ease: "power2",
+                    background:'green',
                     scrollTrigger: {
                         id: `section-${index + 1}`,
                         trigger: el,
-                        start: "top center+=100",
-                        end: "bottom bottom-=200",
+                        start: "top center+=200",
+                        end: "bottom bottom-=300",
                         scrub: true,
                         snap: true,
+                        background:'green',
                     },
                 })
                     .to(el.childNodes[1], {
                         transform: "scale(0)",
                         ease: "power2.inOut",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el.childNodes[1],
@@ -233,12 +128,14 @@ const Services = () => {
                             end: "bottom center",
                             scrub: true,
                             snap: true,
+                            background:'green',
                         },
                     })
                     .from(el.childNodes[2], {
                         y: 400,
                         duration: 2,
                         ease: "power2",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el,
@@ -246,17 +143,20 @@ const Services = () => {
                             end: "bottom bottom-=200",
                             scrub: true,
                             snap: true,
+                            background:'green',
                         },
                     })
                     .to(el, {
                         opacity: 0,
                         ease: "power2",
+                        background:'green',
                         scrollTrigger: {
                             id: `section-${index + 1}`,
                             trigger: el,
                             start: "top top+=200",
                             end: "center top+=300",
                             scrub: true,
+                            background:'green',
                         },
                     });
             }
@@ -270,53 +170,46 @@ const Services = () => {
     };
 
     return (
-        <>
-            <style>
-                {titleBeforeStyles}
-                {contentMediaStyles}
-                {objMediaStyles}
-            </style>
-            <section id="services" style={serviceSectionStyles}>
-                <div style={backgroundStyles} ref={ref}>
-                    <h1 className="title" style={titleStyles}>What We Do</h1>
-                    <span id="line" style={lineStyles} />
-                    <span id="triangle" style={triangleStyles} />
+        <section id="services" className="w-screen flex flex-col items-center justify-center relative pt-80 bg-red-500">
+            <div className="absolute flex flex-col items-center top-0 left-0 bottom-0 w-screen h-[85vh] z-[-1] bg-blue-500" ref={ref}>
+                <h1 className="text-white text-2xl mt-4 relative inline-block before:content-[''] before:h-[1px] before:w-[50%] before:absolute before:left-1/2 before:bottom-0 before:transform before:-translate-x-1/2 before:border-b-2 before:border-pink-500">What We Do</h1>
+                <span id="line" className="border-l-4 border-background h-60 mt-8 rounded-t-3xl"></span>
+                <span id="triangle" className="w-0 h-0 border-l-[1.2rem] border-r-[1.2rem] border-t-[2rem] border-t-background"></span>
+            </div>
+            <div className="content flex justify-between items-center mx-[10rem] my-[10rem] relative bg-blue-500" ref={addToRefs}>
+                <TextBlock
+                    topic="Design"
+                    title={<h1>We build award winning Designs</h1>}
+                    subText={<h5>We help clients to build great design to attract more customers</h5>}
+                />
+                <div className="obj absolute top-[80%] right-[35%] flex justify-center items-center w-[20vw]">
+                    <img src={Tube} alt="Tube Object" width="400" height="400" />
                 </div>
-                <div className="content" style={contentStyles} ref={addToRefs}>
-                    <TextBlock
-                        topic="Design"
-                        title={<h1>We build award winning Designs</h1>}
-                        subText={<h5>We help clients to build great design to attract more customers</h5>}
-                    />
-                    <div className="obj" style={objStyles}>
-                        <img src={Tube} alt="Tube Object" width="400" height="400" />
-                    </div>
-                    <SvgBlock svg="Design.svg" />
+                <SvgBlock svg="Design.svg" />
+            </div>
+            <div className="content flex justify-between items-center mx-[10rem] my-[10rem] relative" ref={addToRefs}>
+                <TextBlock
+                    topic="Develop"
+                    title={<h1>We Develope high quality Web & App</h1>}
+                    subText={<h5>We build appropriate solution to develope your website & app with best tools available</h5>}
+                />
+                <div className="obj absolute top-[80%] right-[35%] flex justify-center items-center w-[20vw]">
+                    <img src={Cone} alt="Cone Object" width="400" height="400" />
                 </div>
-                <div className="content" style={contentStyles} ref={addToRefs}>
-                    <TextBlock
-                        topic="Develop"
-                        title={<h1>We Develope high quality Web & App</h1>}
-                        subText={<h5>We build appropriate solution to develope your website & app with best tools available</h5>}
-                    />
-                    <div className="obj" style={objStyles}>
-                        <img src={Cone} alt="Cone Object" width="400" height="400" />
-                    </div>
-                    <SvgBlock svg="Develope.svg" />
+                <SvgBlock svg="Develope.svg" />
+            </div>
+            <div className="content flex justify-between items-center mx-[10rem] my-[10rem] relative" ref={addToRefs}>
+                <TextBlock
+                    topic="Support"
+                    title={<h1>We provide support for your digital presence</h1>}
+                    subText={<h5>Once your system is online, we will stay on hand to help you use it and provide technical support and maintenance for your business</h5>}
+                />
+                <div className="obj absolute top-[80%] right-[35%] flex justify-center items-center w-[20vw]">
+                    <img src={Capsule} alt="Capsule Object" width="400" height="400" />
                 </div>
-                <div className="content" style={contentStyles} ref={addToRefs}>
-                    <TextBlock
-                        topic="Support"
-                        title={<h1>We provide support for your digital presence</h1>}
-                        subText={<h5>Once your system is online, we will stay on hand to help you use it and provide technical support and maintenance for your business</h5>}
-                    />
-                    <div className="obj" style={objStyles}>
-                        <img src={Capsule} alt="Capsule Object" width="400" height="400" />
-                    </div>
-                    <SvgBlock svg="Support.svg" />
-                </div>
-            </section>
-        </>
+                <SvgBlock svg="Support.svg" />
+            </div>
+        </section>
     );
 };
 

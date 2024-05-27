@@ -9,6 +9,7 @@ const TextBlock = ({ topic, title, subText, children }) => {
     lineHeight: 1.5,
     color: "var(--white)",
     position: "relative",
+    background:'blue'
   };
 
   const topicStyles = {

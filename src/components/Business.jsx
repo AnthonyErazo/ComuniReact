@@ -16,7 +16,7 @@ const FeatureCard = ({ icon, title, content, index,question }) => (
   </div>
 );
 
-const Business = ({title,description,questions,styleQA}) =>  (
+const Business = ({title,description,questions,styleQA,styleImg}) =>  (
   <section id="features" className={styleQA}>
     <div className={layout.sectionInfo}>
       <h2 className={styles.heading2}>
@@ -27,7 +27,7 @@ const Business = ({title,description,questions,styleQA}) =>  (
       </p>
     </div>
 
-    <div className={`${layout.sectionImg} flex-col`}>
+    <div className={`${styleImg} flex-col`}>
       {questions.map((question, index) => (
         <FeatureCard key={question.id} {...question} question={question} index={index} />
       ))}
