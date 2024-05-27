@@ -27,10 +27,16 @@ import update from "./feature-1-community-update.svg";
 import cost from "./feature-2-community-cost.svg";
 import joinMultiple from "./feature-3-community-join-multiple.svg";
 import comunity from './Networking.png'
+import banner from './service/1.jpg'
+import fondo1 from './fondo1.jpg'
+import fondo2 from './fondo2.jpg'
 
 
 
 export {
+  fondo1,
+  fondo2,
+  banner,
   join,
   create,
   types,
