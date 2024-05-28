@@ -202,7 +202,8 @@ module.exports = {
         65: '.65',
       },
       backgroundImage: {
-        video: "url('../images/video/video.png')",
+        slider: 'linear-gradient(to top, rgb(0 4 15 / var(--tw-bg-opacity)) 10%, transparent)',
+        thumbnails: 'linear-gradient(to top, rgb(0 4 15 / var(--tw-bg-opacity)) 2%, transparent)',
       },
       content: {
         'icon-copy': 'url("../images/icon/icon-copy-alt.svg")',
@@ -236,6 +237,13 @@ module.exports = {
           '0%, 100%': { transform: 'rotate(360deg)' },
           '50%': { transform: 'rotate(0deg)' },
         },
+        showContent: {
+          to: {
+            transform: 'translateY(0)',
+            filter: 'blur(0)',
+            opacity: '1',
+          },
+        },
       },
       animation: {
         'ping-once': 'ping 5s cubic-bezier(0, 0, 0.2, 1)',
@@ -243,6 +251,7 @@ module.exports = {
         'spin-1.5': 'spin 1.5s linear infinite',
         'spin-2': 'spin 2s linear infinite',
         'spin-3': 'spin 3s linear infinite',
+        'show-content': 'showContent 0.5s 0.7s ease-in-out 1 forwards',
       },
     },
     screens: {
@@ -256,7 +265,7 @@ module.exports = {
       xsm: '425px',
       '3xl': '2000px',
     },
-    
+
   },
-  plugins: [],
+  plugins: ['tailwindcss-animation-delay'],
 };

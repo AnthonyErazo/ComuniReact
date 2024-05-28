@@ -1,0 +1,41 @@
+.title-Service::before {
+    content: "";
+    height: 1px;
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0.5rem);
+    border-bottom: 2px solid var(--pink);
+}
+
+@media (max-width: 64em) {
+    .content-text-block {
+        margin: 10rem calc(4rem + 5vw);
+    }
+}
+
+@media (max-width: 48em) {
+    .content-text-block {
+        display: block;
+    }
+
+    .content-text-block:last-child {
+        margin-bottom: 2rem;
+    }
+
+    .text-block-img {
+        opacity: 0.5;
+    }
+
+}
+
+@media (max-width: 40em) {
+    .content-text-block {
+        margin: 10rem calc(2rem + 3vw);
+    }
+
+    .content-text-block:last-child {
+        margin-bottom: 1rem;
+    }
+}

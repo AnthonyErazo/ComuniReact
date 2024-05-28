@@ -17,7 +17,7 @@ const SvgBlock = ({ svg }) => {
   };
 
   const mediaQueryStyles = `
-    @media only screen and (max-width: 48em) {
+    @media (max-width: 48em) {
       #svgBlock {
         display: none;
       }

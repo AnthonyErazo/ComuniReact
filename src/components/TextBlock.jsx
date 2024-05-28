@@ -9,7 +9,6 @@ const TextBlock = ({ topic, title, subText, children }) => {
     lineHeight: 1.5,
     color: "var(--white)",
     position: "relative",
-    background:'blue'
   };
 
   const topicStyles = {
@@ -45,22 +44,22 @@ const TextBlock = ({ topic, title, subText, children }) => {
   };
 
   const mediaQueryStyles = `
-    @media only screen and (max-width: 48em) {
+    @media (max-width: 48em) {
       #leftBlock {
         width: 100%;
         align-items: center;
         text-align: center;
       }
 
-      #leftBlock span {
+      #span1 {
         font-size: calc(0.4rem + 0.8vw);
       }
 
-      #leftBlock div:nth-of-type(2) {
+      #title-svg {
         font-size: calc(1rem + 1.5vw);
       }
 
-      #leftBlock div:nth-of-type(3) {
+      #subtitle-svg {
         font-size: calc(0.5rem + 1vw);
       }
     }
@@ -70,12 +69,12 @@ const TextBlock = ({ topic, title, subText, children }) => {
     <>
       <style>{mediaQueryStyles}</style>
       <div id="leftBlock" style={lbStyles}>
-        <div style={topicStyles}>
+        <span id="span1" style={topicStyles}>
           <span style={circleStyles} />
           <span>{topic}</span>
-        </div>
-        <div style={titleStyles}>{title}</div>
-        <div style={subTextStyles}>{subText}</div>
+        </span>
+        <div id="title-svg" style={titleStyles}>{title}</div>
+        <div id="subtitle-svg" style={subTextStyles}>{subText}</div>
         {children}
       </div>
     </>
