@@ -18,7 +18,7 @@ const SliderItem = ({ itemActive, id, image, brand, name, desc }) => {
                     {brand}
                 </p>
                 <h2
-                    className={`text-6xl lg:text-8xl m-0 text-white font-bold translate-y-[30px] blur-[20px] opacity-0 animation-delay-400 ${itemActive === id && 'animate-show-content'}`}
+                    className={`text-4xl sm:text-6xl lg:text-8xl m-0 text-white font-bold translate-y-[30px] blur-[20px] opacity-0 animation-delay-400 ${itemActive === id && 'animate-show-content'}`}
                 >
                     {name}
                 </h2>
