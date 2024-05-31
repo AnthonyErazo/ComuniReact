@@ -1,10 +1,9 @@
 import styles, { layout } from "../style";
-import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Hero } from "./";
+import { Business, CTA, Footer, Navbar,Hero } from "./";
 
 import { questions1, questions2 } from "../constants";
 import Testimonials from "./Testimonials";
-import Services from "./Services";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import SliderItem from "./SliderItem";
 import SliderThumbnailItem from "./SliderThumbnailItem";
 import Arrows from "./Arrows";

@@ -1,6 +1,3 @@
-import { useState } from 'react';
-
-// Función cn
 function cn(...inputs) {
     return inputs.join(' ');
 }
