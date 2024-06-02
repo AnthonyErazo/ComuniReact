@@ -1,11 +1,5 @@
-import styles, { layout } from "./style";
-import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Hero } from "./components";
-import Services from "./components/Services"
-import { questions1, questions2 } from "./constants";
-import Testimonials from "./components/Testimonials";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
-import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./components/Dashboard";
 import Messages from "./components/Messages";
 import MyGroup from "./components/MyGroup";
