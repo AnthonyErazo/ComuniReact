@@ -14,10 +14,14 @@ import Users from "./components/Users";
 import AllGroups from "./components/AllGroups";
 import AllNotices from "./components/AllNotices";
 import Profile from "./components/Profile";
+import MainGroups from "./components/MainGroups";
+import MainGroup from "./components/MainGroup";
 
 const App = () => (
   <Routes>
     <Route path="/" element={<MainLayout />} />
+    <Route path="/groups" element={<MainGroups />} />
+    <Route path="/groups/:id" element={<MainGroup />} />
 
     <Route path="/dashboard">
       <Route path="">

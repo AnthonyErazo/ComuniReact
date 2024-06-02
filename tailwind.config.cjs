@@ -202,6 +202,8 @@ module.exports = {
         65: '.65',
       },
       backgroundImage: {
+        'top-parabola': 'linear-gradient(to bottom, rgb(0 4 15 / var(--tw-bg-opacity)) 10%, rgba(0, 4, 15, 0) 100%)',
+        'bottom-parabola': 'linear-gradient(to top, rgb(0 4 15 / var(--tw-bg-opacity)) 10%, rgba(0, 4, 15, 0) 100%)',
         slider: 'linear-gradient(to top, rgb(0 4 15 / var(--tw-bg-opacity)) 10%, transparent)',
         thumbnails: 'linear-gradient(to top, rgb(0 4 15 / var(--tw-bg-opacity)) 2%, transparent)',
       },

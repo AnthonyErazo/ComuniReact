@@ -9,6 +9,7 @@ import SliderItem from "./SliderItem";
 import SliderThumbnailItem from "./SliderThumbnailItem";
 import Arrows from "./Arrows";
 import { fondo1, fondo2 } from "../assets";
+import Contact from "./Contact";
 
 const MainLayout = () => {
   const [itemActive, setItemActive] = useState(1);
@@ -155,6 +156,7 @@ const MainLayout = () => {
     />
     <Testimonials />
     <CTA />
+    <Contact />
     <Footer />
   </div>
 </div>
