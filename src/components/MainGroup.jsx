@@ -8,7 +8,7 @@ import Navbar from './Navbar'
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
 import Button from './Button'
 import Contact from './Contact'
-import Pagination from './pagination'
+import Pagination from './Pagination'
 
 function MainGroup() {
     const [loading, setLoading] = useState(true);
@@ -60,11 +60,22 @@ function MainGroup() {
 
             <div className={`bg-primary ${styles.flexStart} relative`}>
                 <div className="absolute w-full h-full">
+                    {loading?
+                    <div className="bg-primary w-full overflow-hidden animate-pulse">
+                    <div className={`${styles.paddingX} ${styles.flexCenter}`}>
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex-1">
+                                    <div className="h-full w-full absolute object-cover object-center z-0 bg-dimWhite"></div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                    :
                     <img
                         src="https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/326332255_1197621694195013_2949145340276907201_n.jpg?stp=dst-jpg_s960x960&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFtUk9TSl9GcjKo2rAJ8LxY5dSjEPtvDMbl1KMQ-28MxnPLxNTjHmX2KRfMmVKqspbSuN4qzI6BfUzrTvEleGxw&_nc_ohc=ub95tzaj1nIQ7kNvgEdlG0m&_nc_ht=scontent.flim33-1.fna&oh=00_AYCi4Pu33ILEfAjl9Sf7DKkyb7gv9YLjRitSon8NccSF1A&oe=6661D83F"
                         alt="profile cover"
                         className="h-full w-full absolute  object-cover object-center z-0"
-                    />
+                    />}
                     <div className="absolute inset-x-0 bg-top-parabola h-[90%] w-full top-0 z-1"></div>
                     <div className="absolute inset-x-0 bg-bottom-parabola h-[90%] w-full bottom-0 z-1"></div>
                 </div>

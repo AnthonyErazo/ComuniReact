@@ -17,7 +17,7 @@ const FeatureCard = ({ icon, title, content, index,question }) => (
 );
 
 const Business = ({title,description,questions,styleQA,styleImg}) =>  (
-  <section id="features" className={styleQA}>
+  <section id="QA" className={styleQA}>
     <div className={layout.sectionInfo}>
       <h2 className={styles.heading2}>
       {title}

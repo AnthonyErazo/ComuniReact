@@ -30,10 +30,22 @@ import comunity from './Networking.png'
 import banner from './service/1.jpg'
 import fondo1 from './fondo1.jpg'
 import fondo2 from './fondo2.jpg'
+import imagen1 from './imagen1.webp'
+import imagen3 from './imagen3.webp'
+import imagen7 from './imagen7.webp'
+import imagen8 from './imagen8.webp'
+import imagen10 from './imagen10.webp'
+import imagen11 from './imagen11.webp'
 
 
 
 export {
+  imagen1,
+  imagen3,
+  imagen7,
+  imagen8,
+  imagen10,
+  imagen11,
   fondo1,
   fondo2,
   banner,
