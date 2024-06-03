@@ -1,5 +1,5 @@
 // const API_BASE_URL = 'http://localhost:8080/api';
-const API_BASE_URL = 'https://comunibackend.adaptable.app';
+const API_BASE_URL = 'https://comuniback-production.up.railway.app/';
 
 const endpoints = {
     users: {
