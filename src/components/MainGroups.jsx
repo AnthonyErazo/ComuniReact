@@ -5,7 +5,7 @@ import CTA from './CTA';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import Contact from './Contact';
-import Pagination from './pagination';
+import Pagination from './Pagination';
 
 function MainGroups() {
     return (
