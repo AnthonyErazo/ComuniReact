@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import styles from '../style';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
-import Pagination from './Pagination';
+import PaginationNumber from './PaginationNumber';
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 
 function MainGroups() {
@@ -14,7 +14,7 @@ function MainGroups() {
                     <Navbar />
                 </div>
             </div>
-            <Pagination />
+            <PaginationNumber />
 
             <div className={`bg-primary ${styles.flexStart}`}>
                 <div className={`${styles.boxWidth}`}>

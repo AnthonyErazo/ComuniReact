@@ -1,4 +1,4 @@
-import logo from "./comuni.png";
+import logo from "./comuni.webp";
 import quotes from "./quotes.svg";
 import send from "./Send.svg";
 import shield from "./Shield.svg";
@@ -17,7 +17,7 @@ import types from "./feature-3-community-types.svg";
 import update from "./feature-1-community-update.svg";
 import cost from "./feature-2-community-cost.svg";
 import joinMultiple from "./feature-3-community-join-multiple.svg";
-import comunity from './Networking.png'
+import comunity from './Networking.webp'
 import banner from './service/1.jpg'
 import fondo1 from './fondo1.jpg'
 import fondo2 from './fondo2.jpg'

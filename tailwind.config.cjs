@@ -271,5 +271,5 @@ module.exports = {
     },
 
   },
-  plugins: ['tailwindcss-animation-delay'],
+  plugins: ['tailwindcss-animation-delay',require('tailwind-scrollbar')({ nocompatible: true }),],
 };

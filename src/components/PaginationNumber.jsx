@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Pagination() {
+function PaginationNumber() {
     return (
         <div className={`flex  px-4 py-3 justify-center`}>
             <div className="flex items-center justify-center text-white">
@@ -30,5 +30,5 @@ function Pagination() {
     )
 }
 
-export default Pagination
+export default PaginationNumber
 

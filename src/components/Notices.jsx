@@ -1,9 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
-import Pagination from './Pagination'
+import Pagination from './PaginationNumber'
 
 export default function Notices() {
+  const [loading, setLoading] = useState(true);
+  const group = {
+      name: 'Centro Cultural Nucleo',
+      description: 'El Centro Cultural Núcleo, es uno de los centro culturales emblemáticos de la Facultad Nacional de Ingeniería Industrial y de Sistemas de la Universidad Nacional de Ingeniería de Perú, con más de 30 años formando líderes capaces de gestionar proyectos, realizar investigación y superarse constantemente ha sido y sigue siendo cuna de profesionales destacados en el ámbito laboral, fomentando el desarrollo de capacidades y habilidades diversas se ha logrado quedar muy bien posicionados en concursos de proyectos estudiantiles a nivel nacional e internacional, buscando siempre la excelencia, el Centro Cultural tiene sus puertas abiertas para aquellas personas con ganas de marcar una diferencia significativas y positiva en la sociedad.',
+      img: {
+          name: 'nombre imagen',
+          ref: 'https://scontent.flim6-4.fna.fbcdn.net/v/t39.30808-1/434493740_817644583724303_4719665726187510333_n.jpg?stp=dst-jpg_p200x200&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=VZxul79EW28Q7kNvgEuJsZ3&_nc_ht=scontent.flim6-4.fna&oh=00_AYBBetv0Jl0B0mIeJzIKLeDZBdoBn57LFVot3dxR_V-OSQ&oe=66557B68'
+      },
+      status: true,
+      linkWhats: 'https://wa.me/',
+      linkFace: 'https://www.facebook.com/',
+      linkInsta: 'https://www.instagram.com/',
+      notice: [{
+          name: 'img1',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }, {
+          name: 'img2',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }, {
+          name: 'img3',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }, {
+          name: 'img2',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }, {
+          name: 'img2',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }, {
+          name: 'img2',
+          ref: 'https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/445365976_122186827154068653_7133497250983221506_n.jpg?stp=dst-jpg_p526x296&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG44bGKVSICVMGksVzQmFR-VAynEAM-9q5UDKcQAz72rket6fsAXGF50QlyBVQvyEses5cfSIHiHdnUAO4cQnnH&_nc_ohc=NRPPoXnFVxsQ7kNvgEcVL9F&_nc_ht=scontent.flim33-1.fna&oh=00_AYAdpwHTgwodCu_RHzpyO0OkGyYkqDir3cUwZ2kO2dmxig&oe=6661B9D0'
+      }]
+  };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  useEffect(() => {
+      setTimeout(() => {
+          setLoading(false);
+      }, 2000);
+  }, []);
   return (
     <DashboardLayout>
       <div className="mx-auto max-w-270">
@@ -84,6 +123,29 @@ export default function Notices() {
           </div>
         </div>
         <Pagination />
+        {loading ? (<section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5 animate-pulse'>
+                        {[...Array(6)].map((_, index) => (
+                            <div key={index} className="bg-dimWhite w-full h-[250px] sm:h-[400px] lg:h-[390px] rounded-lg"></div>
+                        ))}
+                    </section>) : (
+                        <section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5'>
+                            {group.notice.map((notice, index) => (
+                                <img
+                                    key={index}
+                                    src={notice.ref}
+                                    alt={notice.name}
+                                    onClick={() => setSelectedImage(notice.ref)}
+                                    className='w-full h-auto object-cover rounded-lg cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105'
+                                />
+                            ))}
+                            {selectedImage && (
+                                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
+                                    <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
+                                    <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
+                                </div>
+                            )}
+                        </section>
+                    )}
       </div>
     </DashboardLayout>
   )

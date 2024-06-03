@@ -1,63 +1,120 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb';
-import Pagination from './Pagination';
+import PaginationNumber from './PaginationNumber';
+import { FaTrash } from 'react-icons/fa';
 
 export default function AllGroups() {
+  const [selectedImage, setSelectedImage] = useState(null);
   const brandData = [
     {
       logo: "https://via.placeholder.com/150",
       name: 'Google',
-      visitors: 3.5,
-      revenues: '5,768',
-      sales: 590,
-      conversion: 4.8,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: 'https://via.placeholder.com/150',
     },
     {
       logo: "https://via.placeholder.com/150",
-      name: 'Twitter',
-      visitors: 2.2,
-      revenues: '4,635',
-      sales: 467,
-      conversion: 4.3,
+      name: 'Google',
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: 'https://via.placeholder.com/150',
     },
     {
       logo: "https://via.placeholder.com/150",
-      name: 'Github',
-      visitors: 2.1,
-      revenues: '4,290',
-      sales: 420,
-      conversion: 3.7,
+      name: 'Google',
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: 'https://via.placeholder.com/150',
     },
     {
       logo: "https://via.placeholder.com/150",
-      name: 'Vimeo',
-      visitors: 1.5,
-      revenues: '3,580',
-      sales: 389,
-      conversion: 2.5,
-    },
-    {
-      logo: "https://via.placeholder.com/150",
-      name: 'Facebook',
-      visitors: 3.5,
-      revenues: '6,768',
-      sales: 390,
-      conversion: 4.2,
+      name: 'Google',
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: 'https://via.placeholder.com/150',
     },
   ];
+  const columns = ["Name", "Description", "Facebook", "Instagram", "Whatsapp", "Background Image"]
   return (
     <DashboardLayout>
       <Breadcrumb pageName="All Groups" />
       <div className="flex flex-col gap-10">
-        <Pagination />
-        <div className="rounded-sm border  px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
-          <h4 className="mb-6 text-xl font-semibold  text-white">
-            Top Channels
-          </h4>
-
-          <div className="flex flex-col text-white">
-            <div className="grid grid-cols-3 rounded-sm  bg-meta-4 sm:grid-cols-5">
+        <PaginationNumber />
+        <div className="rounded-sm border px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
+          <div className="max-w-full overflow-x-auto">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="text-left bg-meta-4">
+                  {columns.map((colum, index) => (
+                    <th key={index} className="min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
+                      {colum}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {brandData.map((brand, key) => (
+                  <tr key={key}>
+                    <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
+                      <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                        <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
+                          <img className='cursor-pointer' src={brand.logo} onClick={() => setSelectedImage(brand.logo)} alt="profile" />
+                        </div>
+                        <p className="hidden  text-white sm:block">
+                          {brand.name}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="border-b  py-5 px-4 border-strokedark">
+                      <p className="text-white h-30 scroll-py-px overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+                        {brand.description}
+                      </p>
+                    </td>
+                    <td className="border-b  py-5 px-4 border-strokedark">
+                      <p
+                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                      >
+                        {brand.linkFacebook}
+                      </p>
+                    </td>
+                    <td className="border-b  py-5 px-4 border-strokedark">
+                      <p
+                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                      >
+                        {brand.linkInstagram}
+                      </p>
+                    </td>
+                    <td className="border-b  py-5 px-4 border-strokedark">
+                      <p
+                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                      >
+                        {brand.linkWhatsapp}
+                      </p>
+                    </td>
+                    <td className="border-b  py-5 px-4 border-strokedark">
+                      <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
+                        <img onClick={() => setSelectedImage(brand.background)} src={brand.background} className='h-20 w-20 cursor-pointer' alt="profile" />
+                        <FaTrash className='w-7 fill-primary bg-white p-1 rounded-lg' />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {/* <div className="flex flex-col text-white">
+            <div className="grid grid-cols-3 overflow-y-auto rounded-sm bg-meta-4 sm:grid-cols-6">
               <div className="p-2.5 xl:p-5">
                 <h5 className="text-sm font-medium uppercase xsm:text-base">
                   Name
@@ -76,6 +133,11 @@ export default function AllGroups() {
               <div className="hidden p-2.5 text-center sm:block xl:p-5">
                 <h5 className="text-sm font-medium uppercase xsm:text-base">
                   Link Instagram
+                </h5>
+              </div>
+              <div className="hidden p-2.5 text-center sm:block xl:p-5">
+                <h5 className="text-sm font-medium uppercase xsm:text-base">
+                  Link Whatsapp
                 </h5>
               </div>
               <div className="hidden p-2.5 text-center sm:block xl:p-5">
@@ -119,8 +181,13 @@ export default function AllGroups() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
+          </div> */}
+          {selectedImage && (
+                                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
+                                    <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
+                                    <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
+                                </div>
+                            )}
       </div>
     </DashboardLayout>
   )

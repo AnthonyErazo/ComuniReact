@@ -3,7 +3,7 @@ import styles from '../style'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
-import Pagination from './Pagination'
+import Pagination from './PaginationNumber'
 import { SomeGroups } from '.'
 
 function MainGroup() {
