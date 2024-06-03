@@ -1,6 +1,6 @@
 import React from 'react';
 import DashboardLayout from './DashboardLayout';
-import { banner, fondo1, fondo2 } from '../assets';
+import { fondo1, fondo2 } from '../assets';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {

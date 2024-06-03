@@ -67,7 +67,7 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
                 <NavLink to="/dashboard/profile" className="flex items-center mt-8 gap-3">
                     <div className="h-16 w-16 flex items-center justify-center bg-gray-200 rounded-full overflow-hidden">
-                        <img className='h-full w-full object-cover' src="https://via.placeholder.com/150" alt="Logo" />
+                        <img className='h-full w-full object-cover' src="https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-1/434493740_817644583724303_4719665726187510333_n.jpg?stp=cp0_dst-jpg_p60x60&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFLp_qEr10WEbtBGreQDCA3ClObpG6JhDwKU5ukbomEPHgP6wgtCTDdukrXks82XrlStVTCoKWcsbRRJLcxOt4O&_nc_ohc=GA_ySCRImhkQ7kNvgHWE95O&_nc_ht=scontent.flim33-1.fna&oh=00_AYDjwACGiJ6Y9GKYS2lmbC5186yWZxy_5EHun2RyrRb58g&oe=66635328" alt="Logo" />
                     </div>
                     <p className='w-40 text-white'>Centro Cultural Tecnologia de la uni</p>
                 </NavLink>

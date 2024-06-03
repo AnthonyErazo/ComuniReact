@@ -4,6 +4,7 @@ import Table from './Table'
 import DashboardLayout from './DashboardLayout'
 import PaginationNumber from './PaginationNumber';
 import { FaExchangeAlt, FaTrash } from 'react-icons/fa';
+import { background, user } from '../assets';
 
 
 export default function Users() {
@@ -12,8 +13,8 @@ export default function Users() {
         {
             name: 'Free package',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-            logo: 'https://via.placeholder.com/150',
-            background: 'https://via.placeholder.com/150',
+            logo: user,
+            background: background,
             linkFacebook: 'http:\\facebook.com',
             linkInstagram: 'http:\\facebook.com',
             linkWhatsapp: 'http:\\facebook.com',
@@ -21,8 +22,8 @@ export default function Users() {
         {
             name: 'Free package',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-            logo: 'https://via.placeholder.com/150',
-            background: 'https://via.placeholder.com/150',
+            logo: user,
+            background: background,
             linkFacebook: 'http:\\facebook.com',
             linkInstagram: 'http:\\facebook.com',
             linkWhatsapp: 'http:\\facebook.com',
@@ -30,8 +31,8 @@ export default function Users() {
         {
             name: 'Free package',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-            logo: 'https://via.placeholder.com/150',
-            background: 'https://via.placeholder.com/150',
+            logo: user,
+            background: background,
             linkFacebook: 'http:\\facebook.com',
             linkInstagram: 'http:\\facebook.com',
             linkWhatsapp: 'http:\\facebook.com',
@@ -39,21 +40,31 @@ export default function Users() {
         {
             name: 'Free package',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-            logo: 'https://via.placeholder.com/150',
-            background: 'https://via.placeholder.com/150',
+            logo: user,
+            background: background,
             linkFacebook: 'http:\\facebook.com',
             linkInstagram: 'http:\\facebook.com',
             linkWhatsapp: 'http:\\facebook.com',
         },
         {
             name: 'Free package',
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-            logo: 'https://via.placeholder.com/150',
-            background: 'https://via.placeholder.com/150',
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+            logo: user,
+            background: background,
             linkFacebook: 'http:\\facebook.com',
             linkInstagram: 'http:\\facebook.com',
             linkWhatsapp: 'http:\\facebook.com',
         },
+        {
+            name: 'Free package',
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+            logo: user,
+            background: background,
+            linkFacebook: 'http:\\facebook.com',
+            linkInstagram: 'http:\\facebook.com',
+            linkWhatsapp: 'http:\\facebook.com',
+        },
+        
     ];
     const columns = ["Name Group", "Description", "Images", "Links", "Actions"]
     return (

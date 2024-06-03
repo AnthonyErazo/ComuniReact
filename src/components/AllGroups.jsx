@@ -3,46 +3,66 @@ import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb';
 import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
+import { background, user } from '../assets';
 
 export default function AllGroups() {
   const [selectedImage, setSelectedImage] = useState(null);
   const brandData = [
     {
-      logo: "https://via.placeholder.com/150",
+      logo: user,
       name: 'Google',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
       linkFacebook: 'http:\\facebook.com',
       linkInstagram: 'http:\\facebook.com',
       linkWhatsapp: 'http:\\facebook.com',
-      background: 'https://via.placeholder.com/150',
+      background: background,
     },
     {
-      logo: "https://via.placeholder.com/150",
+      logo: user,
       name: 'Google',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
       linkFacebook: 'http:\\facebook.com',
       linkInstagram: 'http:\\facebook.com',
       linkWhatsapp: 'http:\\facebook.com',
-      background: 'https://via.placeholder.com/150',
+      background: background,
     },
     {
-      logo: "https://via.placeholder.com/150",
+      logo: user,
       name: 'Google',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
       linkFacebook: 'http:\\facebook.com',
       linkInstagram: 'http:\\facebook.com',
       linkWhatsapp: 'http:\\facebook.com',
-      background: 'https://via.placeholder.com/150',
+      background: background,
     },
     {
-      logo: "https://via.placeholder.com/150",
+      logo: user,
       name: 'Google',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
       linkFacebook: 'http:\\facebook.com',
       linkInstagram: 'http:\\facebook.com',
       linkWhatsapp: 'http:\\facebook.com',
-      background: 'https://via.placeholder.com/150',
+      background: background,
     },
+    {
+      logo: user,
+      name: 'Google',
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: background,
+    },
+    {
+      logo: user,
+      name: 'Google',
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
+      linkFacebook: 'http:\\facebook.com',
+      linkInstagram: 'http:\\facebook.com',
+      linkWhatsapp: 'http:\\facebook.com',
+      background: background,
+    },
+    
   ];
   const columns = ["Name", "Description", "Facebook", "Instagram", "Whatsapp", "Background Image"]
   return (

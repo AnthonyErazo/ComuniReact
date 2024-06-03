@@ -1,6 +1,5 @@
 import styles from "../style";
-import { socialMedia } from "../constants";
-import { FaMapMarked, FaPhoneAlt } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaLinkedin, FaMapMarked, FaPhoneAlt, FaTwitter } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 import Button from "./Button";
 
@@ -44,17 +43,11 @@ const Footer = () => (
         <p className="font-poppins font-normal text-center text-[18px] leading-[27px] text-white">
           Copyright Ⓒ 2022 Comuni.
         </p>
-        <div className="flex flex-row md:mt-0 mt-6">
-          {socialMedia.map((social, index) => (
-            <img
-              key={social.id}
-              src={social.icon}
-              alt={social.id}
-              className={`w-[21px] h-[21px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? "mr-6" : "mr-0"
-                }`}
-              onClick={() => window.open(social.link)}
-            />
-          ))}
+        <div className="flex flex-row md:mt-0 mt-6 gap-5">
+          <FaFacebook className="fill-white w-6"/>
+          <FaInstagram className="fill-white w-6"/>
+          <FaLinkedin className="fill-white w-6"/>
+          <FaTwitter className="fill-white w-6"/>
         </div>
       </div>
     </section>

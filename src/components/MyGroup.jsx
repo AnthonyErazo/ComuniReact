@@ -4,6 +4,7 @@ import Breadcrumb from './Breadcrumb'
 import { FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { IoLogoInstagram } from 'react-icons/io'
 import { AiFillEdit } from 'react-icons/ai'
+import { background, user } from '../assets'
 
 export default function MyGroup() {
   return (
@@ -182,7 +183,7 @@ export default function MyGroup() {
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
                       <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
-                        <img src="https://via.placeholder.com/150" alt="profile" />
+                        <img src={user} alt="profile" />
                       </div>
                     </div>
                     <div>
@@ -267,7 +268,7 @@ export default function MyGroup() {
               </div>
               <div className="relative z-20 h-35 md:h-65">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src={background}
                   alt="profile cover"
                   className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                 />
