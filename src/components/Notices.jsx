@@ -1,6 +1,7 @@
 import React from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
+import Pagination from './Pagination'
 
 export default function Notices() {
   return (
@@ -82,6 +83,7 @@ export default function Notices() {
             </form>
           </div>
         </div>
+        <Pagination />
       </div>
     </DashboardLayout>
   )

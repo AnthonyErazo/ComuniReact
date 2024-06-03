@@ -61,7 +61,7 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
     return (
         <aside
             ref={sidebar}
-            className={`absolute left-0 top-0 z-9999 flex h-screen w-80 flex-col overflow-y-hidden duration-300 bg-boxdark ease-linear lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            className={`absolute left-0 top-0 z-99 mt-[2vh] lg:mt-0 flex h-[98vh] lg:h-screen w-full lg:w-80 flex-col overflow-y-hidden duration-300 bg-boxdark ease-linear lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
         >
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
@@ -264,10 +264,10 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
                             OTHERS
                         </h3>
 
-                        <ul className="mb-6 flex flex-col gap-1.5">
+                        <ul className="mb-6 flex flex-col gap-1.5" onClick={()=>console.log("first")}>
                             <li>
                                 <NavLink
-                                    to="#"
+                                    to="/"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-meta-4 `}
                                 >
                                     <TbLogout2 className='w-5' />

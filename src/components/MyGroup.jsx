@@ -1,10 +1,9 @@
 import React from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
-import { FaFacebookF } from 'react-icons/fa'
+import { FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { IoLogoInstagram } from 'react-icons/io'
 import { AiFillEdit } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
 
 export default function MyGroup() {
   return (
@@ -92,6 +91,27 @@ export default function MyGroup() {
                       className="mb-3 block text-sm font-medium text-white"
                       htmlFor="emailAddress"
                     >
+                      Link Whatsapp
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4.5 top-4">
+                        <FaWhatsapp className='fill-white' />
+                      </span>
+                      <input
+                        className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
+                        type="text"
+                        name="linkFacebook"
+                        id="linkFacebook"
+                        placeholder="https://wa.me/"
+                        defaultValue="https://wa.me/"
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-5.5">
+                    <label
+                      className="mb-3 block text-sm font-medium text-white"
+                      htmlFor="emailAddress"
+                    >
                       Link Instagram
                     </label>
                     <div className="relative">
@@ -114,7 +134,7 @@ export default function MyGroup() {
                       className="mb-3 block text-sm font-medium text-white"
                       htmlFor="Username"
                     >
-                      DESCRIPTION
+                      Description
                     </label>
                     <div className="relative">
                       <span className="absolute left-4.5 top-4">
@@ -150,7 +170,7 @@ export default function MyGroup() {
               </div>
             </div>
           </div>
-          <div className="col-span-5 xl:col-span-2 m-auto">
+          <div className="col-span-5 xl:col-span-2 m-auto w-full">
             <div className="rounded-sm border  shadow-default border-strokedark bg-boxdark">
               <div className="border-b  py-4 px-7 border-strokedark">
                 <h3 className="font-medium  text-white">

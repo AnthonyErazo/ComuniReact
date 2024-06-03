@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../style'
-import Hero from './Hero'
-import Testimonials from './Testimonials'
-import CTA from './CTA'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
-import Button from './Button'
-import Contact from './Contact'
 import Pagination from './Pagination'
+import { SomeGroups } from '.'
 
 function MainGroup() {
     const [loading, setLoading] = useState(true);
@@ -60,54 +56,29 @@ function MainGroup() {
 
             <div className={`bg-primary ${styles.flexStart} relative`}>
                 <div className="absolute w-full h-full">
-                    {loading?
-                    <div className="bg-primary w-full overflow-hidden animate-pulse">
-                    <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex-1">
-                                    <div className="h-full w-full absolute object-cover object-center z-0 bg-dimWhite"></div>
-                                </div>
+                    {loading && (
+                        <div className="absolute inset-0 bg-primary z-10 flex items-center justify-center animate-pulse">
+                            <div className="w-full h-full bg-dimWhite"></div>
+                            <div className="absolute inset-0 flex flex-col justify-between z-1">
+                                <div className="bg-top-parabola h-[45%] w-full"></div>
+                                <div className="bg-bottom-parabola h-[45%] w-full"></div>
                             </div>
-                    </div>
-                </div>
-                    :
+                        </div>
+                    )}
                     <img
                         src="https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/326332255_1197621694195013_2949145340276907201_n.jpg?stp=dst-jpg_s960x960&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFtUk9TSl9GcjKo2rAJ8LxY5dSjEPtvDMbl1KMQ-28MxnPLxNTjHmX2KRfMmVKqspbSuN4qzI6BfUzrTvEleGxw&_nc_ohc=ub95tzaj1nIQ7kNvgEdlG0m&_nc_ht=scontent.flim33-1.fna&oh=00_AYCi4Pu33ILEfAjl9Sf7DKkyb7gv9YLjRitSon8NccSF1A&oe=6661D83F"
                         alt="profile cover"
-                        className="h-full w-full absolute  object-cover object-center z-0"
-                    />}
-                    <div className="absolute inset-x-0 bg-top-parabola h-[90%] w-full top-0 z-1"></div>
-                    <div className="absolute inset-x-0 bg-bottom-parabola h-[90%] w-full bottom-0 z-1"></div>
+                        className={`h-full w-full absolute object-cover object-center transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`}
+                    />
+                    <div className="absolute inset-0 flex flex-col justify-between z-1">
+                        <div className="bg-top-parabola h-[45%] w-full"></div>
+                        <div className="bg-bottom-parabola h-[45%] w-full"></div>
+                    </div>
                 </div>
                 <div className={`${styles.boxWidth}`}>
                     <section id="home" className={`flex md:flex-row flex-col ${styles.paddingY} items-center`}>
                         {loading ? (
-                            <div className="bg-primary w-full overflow-hidden animate-pulse">
-                                <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-                                    <div className={`${styles.boxWidth}`}>
-                                        <div className="flex items-center justify-between w-full">
-                                            <div className="flex-1">
-                                                <div className="bg-dimWhite h-[150px] w-[100%] mb-4 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                                <div className="bg-dimWhite h-[20px] w-[100%] mb-2 rounded"></div>
-                                            </div>
-                                            <div className="flex-1 flex justify-center items-center">
-                                                <div className="bg-dimWhite h-[300px] w-[300px] rounded-full"></div>
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-5 mt-5">
-                                            <div className="bg-dimWhite h-[30px] w-[80px] rounded"></div>
-                                            <div className="bg-dimWhite h-[30px] w-[80px] rounded"></div>
-                                            <div className="bg-dimWhite h-[30px] w-[80px] rounded"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <></>
                         ) : (
                             <>
                                 <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6 z-[10] items-center md:items-start`}>
@@ -177,9 +148,7 @@ function MainGroup() {
                             )}
                         </section>
                     )}
-                    <Testimonials />
-                    <CTA />
-                    <Contact />
+                    <SomeGroups />
                     <Footer />
                 </div>
             </div>

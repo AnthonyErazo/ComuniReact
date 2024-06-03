@@ -1,4 +1,4 @@
-import { facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star, join, create, types, update, cost, joinMultiple  } from "../assets";
+import { facebook, instagram, linkedin, twitter, join, create, types, update, cost, joinMultiple  } from "../assets";
 
 export const navLinks = [
   {
@@ -176,24 +176,5 @@ export const socialMedia = [
     id: "social-media-4",
     icon: linkedin,
     link: "https://www.linkedin.com/",
-  },
-];
-
-export const clients = [
-  {
-    id: "client-1",
-    logo: airbnb,
-  },
-  {
-    id: "client-2",
-    logo: binance,
-  },
-  {
-    id: "client-3",
-    logo: coinbase,
-  },
-  {
-    id: "client-4",
-    logo: dropbox,
   },
 ];

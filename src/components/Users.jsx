@@ -2,10 +2,11 @@ import React from 'react'
 import Breadcrumb from './Breadcrumb'
 import Table from './Table'
 import DashboardLayout from './DashboardLayout'
+import Pagination from './Pagination';
 
 
 export default function Users() {
-	const packageData = [
+    const packageData = [
         {
             name: 'Free package',
             price: 0.0,
@@ -31,13 +32,14 @@ export default function Users() {
             status: 'Pending',
         },
     ];
-	const columns=["Name Group","Description","Images","Links","Actions"]
-	return (
-		<DashboardLayout>
-			<Breadcrumb pageName="New Users" />
-			<div className="flex flex-col gap-10">
-				<Table packageData={packageData} columns={columns} change/>
-			</div>
-		</DashboardLayout>
-	)
+    const columns = ["Name Group", "Description", "Images", "Links", "Actions"]
+    return (
+        <DashboardLayout>
+            <Breadcrumb pageName="New Users" />
+            <div className="flex flex-col gap-10">
+                <Pagination />
+                <Table packageData={packageData} columns={columns} change />
+            </div>
+        </DashboardLayout>
+    )
 }

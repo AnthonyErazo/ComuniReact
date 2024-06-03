@@ -2,7 +2,7 @@ import React from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 export default function Profile() {
     return (
@@ -109,27 +109,81 @@ export default function Profile() {
                             <h4 className="mb-3.5 font-medium  text-white">
                                 My social networks
                             </h4>
-                            <div className="flex items-center justify-center gap-3.5">
+                            <div className="flex items-center justify-center gap-8">
                                 <Link
                                     to="#"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
-                                    <FaFacebookF className='fill-white' />
+                                    <FaFacebookF className='fill-white w-6' />
                                 </Link>
                                 <Link
                                     to="#"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
-                                    <FaInstagram className='fill-white' />
+                                    <FaWhatsapp className='fill-white w-6' />
+                                </Link>
+                                <Link
+                                    to="#"
+                                    className="hover:text-primary"
+                                    aria-label="social-icon"
+                                >
+                                    <FaInstagram className='fill-white w-6' />
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div></div>
+            <div className=' grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5'>
+                <div className="flex flex-col gap-9">
+                    <div className="rounded-sm border shadow-default border-strokedark bg-boxdark">
+                        <form action="#">
+                            <div className="p-6.5">
+                                <div className="mb-4.5 flex flex-col gap-6">
+                                    <div className="w-full">
+                                        <label className="mb-2.5 block  text-white">
+                                            Change Email
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your email"
+                                            className="w-full rounded border-[1.5px] bg-transparent py-3 px-5  outline-none transition active:border-primary disabled:cursor-default disabled:bg-whiter border-form-strokedark bg-form-input text-white focus:border-primary"
+                                        />
+                                    </div>
+                                </div>
+                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                    Change
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-9">
+                    <div className="rounded-sm border shadow-default border-strokedark bg-boxdark">
+                        <form action="#">
+                            <div className="p-6.5">
+                                <div className="mb-4.5 flex flex-col gap-6 ">
+                                    <div className="w-full ">
+                                        <label className="mb-2.5 block  text-white">
+                                        Change Password
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your password"
+                                            className="w-full rounded border-[1.5px] bg-transparent py-3 px-5 outline-none transition active:border-primary disabled:cursor-default disabled:bg-whiter border-form-strokedark bg-form-input text-white focus:border-primary"
+                                        />
+                                    </div>
+                                </div>
+                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                    Change
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </DashboardLayout>
     )
 }
