@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Breadcrumb from './Breadcrumb'
-import Table from './Table'
 import DashboardLayout from './DashboardLayout'
 import PaginationNumber from './PaginationNumber';
 import { FaExchangeAlt, FaTrash } from 'react-icons/fa';

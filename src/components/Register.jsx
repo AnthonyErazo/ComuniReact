@@ -1,10 +1,65 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { TfiEmail } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
+import { register } from '../services/authService'
 
 function Register() {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        rePassword: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [errorPassword, setErrorPassword] = useState('');
+    const resetForm = () => {
+        setFormData({
+            email: '',
+            password: '',
+            rePassword: ''
+        })
+    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        if ((name === 'password'||name === 'rePassword') && value !== formData.password) {
+            setErrorPassword('Passwords do not match');
+        } else {
+            setErrorPassword('');
+        }
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const fetchRegister = async () => {
+            console.log(formData)
+            setLoading(true)
+            if (formData.password!=formData.rePassword) {
+                setErrorPassword('Passwords do not match')
+                setLoading(false)
+                return
+            }
+            try {
+                const data = await register({email:formData.email,password:formData.password})
+                console.log(data)
+            } catch (error) {
+                console.error(error)
+                // const alertError = {
+                //     id_toast: new Date().toString(),
+                //     message: error.response.data.cause,
+                //     duration: 4600,
+                //     type: 'error',
+                //     status_code: 400
+                // };
+                // setAlert(alertError)
+            }
+        };
+        fetchRegister();
+        resetForm();
+        setLoading(false);
+    };
+    if (loading) return <>hola</>
     return (
         <div className="bg-primary">
             <div className="flex h-screen overflow-hidden">
@@ -149,13 +204,16 @@ function Register() {
                                         <h2 className="mb-9 font-bold  text-white text-title-xl2">
                                             Sign Up
                                         </h2>
-                                        <form>
+                                        <form onSubmit={handleSubmit}>
                                             <div className="mb-4">
                                                 <label className="mb-2.5 block font-medium  text-white">
                                                     Email
                                                 </label>
                                                 <div className="relative">
                                                     <input
+                                                        name="email"
+                                                        value={formData.email}
+                                                        onChange={handleChange}
                                                         type="email"
                                                         placeholder="Enter your email"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10  outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
@@ -173,6 +231,9 @@ function Register() {
                                                 </label>
                                                 <div className="relative">
                                                     <input
+                                                        name="password"
+                                                        value={formData.password}
+                                                        onChange={handleChange}
                                                         type="password"
                                                         placeholder="Enter your password"
                                                         className="w-full rounded-lg border bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
@@ -190,6 +251,9 @@ function Register() {
                                                 </label>
                                                 <div className="relative">
                                                     <input
+                                                        name="rePassword"
+                                                        value={formData.rePassword}
+                                                        onChange={handleChange}
                                                         type="password"
                                                         placeholder="Re-enter your password"
                                                         className="w-full rounded-lg border bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
@@ -199,6 +263,7 @@ function Register() {
                                                         <RiLockPasswordLine className='fill-white w-5 h-5' />
                                                     </span>
                                                 </div>
+                                                {errorPassword && <p className="text-red-500 text-sm">{errorPassword}</p>}
                                             </div>
 
                                             <div className="mb-5">

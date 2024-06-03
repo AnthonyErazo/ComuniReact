@@ -1,9 +1,8 @@
 import React from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
-import Table from './Table'
 import PaginationNumber from './PaginationNumber';
-import { FaExchangeAlt, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { BiMessageAdd } from 'react-icons/bi';
 
 export default function Messages() {

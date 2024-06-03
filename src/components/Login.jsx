@@ -1,10 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
-import { RiLockPasswordLine } from 'react-icons/ri'
-import { TfiEmail } from 'react-icons/tfi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../services/authService';
 
 function Login() {
+    const navigate=useNavigate()
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [loading,setLoading] = useState(false);
+    const resetForm = () => {
+        setFormData({
+            email: '',
+            password: ''
+        })
+    }
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const fetchLogin = async () => {
+            console.log(formData)
+            setLoading(true)
+            try {
+                const data=await login(formData)
+                console.log(data)
+                navigate('/dashboard/inicio');
+            } catch (error) {
+                console.error(error)
+                // const alertError = {
+                //     id_toast: new Date().toString(),
+                //     message: error.response.data.cause,
+                //     duration: 4600,
+                //     type: 'error',
+                //     status_code: 400
+                // };
+                // setAlert(alertError)
+            }
+        };
+        fetchLogin();
+        resetForm();
+        setLoading(false);
+    };
+    if(loading) return <>hola</>
     return (
         <div className="bg-primary">
             <div className="flex h-screen overflow-hidden">
@@ -151,13 +191,16 @@ function Login() {
                                             Sign In
                                         </h2>
 
-                                        <form>
+                                        <form onSubmit={handleSubmit}>
                                             <div className="mb-4">
                                                 <label className="mb-2.5 block font-medium text-white">
                                                     Email
                                                 </label>
                                                 <div className="relative">
                                                     <input
+                                                        name='email'
+                                                        onChange={handleChange}
+                                                        value={formData.email}
                                                         type="email"
                                                         placeholder="Enter your email"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
@@ -189,6 +232,9 @@ function Login() {
                                                 </label>
                                                 <div className="relative">
                                                     <input
+                                                        name='password'
+                                                        value={formData.password}
+                                                        onChange={handleChange}
                                                         type="password"
                                                         placeholder="6+ Characters, 1 Capital letter"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
