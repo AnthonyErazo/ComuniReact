@@ -1,45 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
 import { BiMessageAdd } from 'react-icons/bi';
+import { deleteMessage, getMessages, responseMessage } from '../services/messages';
 
 export default function Messages() {
-  const packageData = [
-    {
-      name: 'Free package',
-      email: 'email@email.com',
-      message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.`,
-    },
-    {
-      name: 'Free package',
-      email: 'email@email.com',
-      message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.`,
-    },
-    {
-      name: 'Free package',
-      email: 'email@email.com',
-      message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.`,
-    },
-    {
-      name: 'Free package',
-      email: 'email@email.com',
-      message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.`,
-    },
-    {
-      name: 'Free package',
-      email: 'email@email.com',
-      message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.`,
-    },
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [totalPages, setTotalPages] = useState(null)
+  const [page, setPage] = useState(1)
 
-  ];
+  useEffect(() => {
+    const fecthMessages = async () => {
+      try {
+        setLoading(true)
+        const data = await getMessages(10, page)
+        setTotalPages(data.totalPages)
+        setMessages(data.payload);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fecthMessages();
+  }, [page]);
+  const handleDeleteMessage = (mid) => {
+    const fecthDeleteMessage = async () => {
+      try {
+        setLoading(true)
+        const data = await deleteMessage(mid)
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fecthDeleteMessage();
+  }
+  // const handleResponseMessage = (mid) => {
+  //   const fecthResponseMessages = async () => {
+  //     try {
+  //       setLoading(true)
+  //       const data = await responseMessage(mid, page)
+  //     } catch (error) {
+  //       console.error('Error fetching groups:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fecthResponseMessages();
+  // }
   const columns = ["Name", "Email", "Message", "Actions"]
+  if (loading) return <>Loading...</>
   return (
     <DashboardLayout>
       <Breadcrumb pageName="Messages" />
       <div className="flex flex-col gap-10">
-        <PaginationNumber />
+        <PaginationNumber totalPages={totalPages} page={page} setPage={setPage} />
         <div className="rounded-sm border px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="max-w-full overflow-x-auto">
             <table className="w-full table-auto">
@@ -53,29 +76,29 @@ export default function Messages() {
                 </tr>
               </thead>
               <tbody>
-                {packageData.map((packageItem, key) => (
+                {messages.map((message, key) => (
                   <tr key={key}>
                     <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
                       <h5 className="font-medium  text-white">
-                        {packageItem.name}
+                        {message.name}
                       </h5>
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <p className=" text-white">
-                        {packageItem.email}
+                        {message.email}
                       </p>
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <p className="text-white h-30 scroll-py-px overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
-                        {packageItem.message}
+                        {message.message}
                       </p>
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <div className="flex items-center space-x-3.5 gap-5 justify-center">
-                        <button className="hover:text-primary">
+                        {/* <button onClick={() => handleResponseMessage(message._id)} className="hover:text-primary">
                           <BiMessageAdd className='fill-white' />
-                        </button>
-                        <button className="hover:text-primary">
+                        </button> */}
+                        <button onClick={() => handleDeleteMessage(message._id)} className="hover:text-primary">
                           <FaTrash className='fill-white' />
                         </button>
                       </div>

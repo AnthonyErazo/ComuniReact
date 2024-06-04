@@ -5,27 +5,25 @@ const createMessage = async (newMessage) => {
     const response = await axios.post(endpoints.messages.create,newMessage);
     return response.data;
 };
-const getDataUser = async () => {
-    const response = await axios.get(endpoints.users.getData,{
+const getMessages = async (limit=10,page=1,filter) => {
+    const response = await axios.get(`${endpoints.messages.getAll}?limit=${limit}&page=${page}${filter?`&filter=${filter}`:''}`,{
         withCredentials: true 
     });
     return response.data;
 };
 
-const getUserById = async (id) => {
-    const response = await axios.get(endpoints.users.getById(id));
+const deleteMessage = async (mid) => {
+    const response = await axios.delete(endpoints.messages.delete(mid),{
+        withCredentials: true 
+    });
     return response.data;
 };
 
-
-const updateUser = async (id, userData) => {
-    const response = await axios.put(endpoints.users.update(id), userData);
+const responseMessage = async (mid, responseMessage) => {
+    const response = await axios.post(endpoints.messages.response(mid), responseMessage,{
+        withCredentials: true 
+    });
     return response.data;
 };
 
-const deleteUser = async (id) => {
-    const response = await axios.delete(endpoints.users.delete(id));
-    return response.data;
-};
-
-export { createMessage };
+export { createMessage, getMessages, deleteMessage, responseMessage };
