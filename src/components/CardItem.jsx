@@ -27,16 +27,16 @@ const CardItem = ({ grupo, isLoading }) => {
                     </div>
                 </>
             ) : (
-                <Link to={'/groups/1'}>
+                <Link to={`/groups/${grupo.id}#groupDescription`}>
                     <img src={quotes} alt="double_quotes" className="w-[42.6px] h-[27.6px] object-contain" />
                     <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-10 line-clamp-4">
-                        {grupo?.description}
+                        {grupo.description}
                     </p>
                     <div className="flex flex-row">
-                        <img src={grupo?.img} alt={grupo?.title} className="w-[48px] h-[48px] rounded-full" />
+                        <img src={grupo.img.ref} alt={grupo.img.name} className="w-[48px] h-[48px] rounded-full" />
                         <div className="flex flex-col ml-4">
                             <h4 className="font-poppins font-semibold text-[20px] leading-[32px] text-white">
-                                {grupo?.title}
+                                {grupo.name}
                             </h4>
                             <p className="font-poppins font-normal text-[16px] leading-[24px] text-dimWhite">
                                 Ver mas

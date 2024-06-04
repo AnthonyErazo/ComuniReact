@@ -1,51 +1,106 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import styles from '../style';
 import Footer from './Footer';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PaginationNumber from './PaginationNumber';
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
+import { getGroups } from '../services/groupService';
 
 function MainGroups() {
+    const [loading, setLoading] = useState(false);
+    const [grupos, setGrupos] = useState([]);
+    const [totalPages, setTotalPages] = useState(null)
+    const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                setLoading(true)
+                const data = await getGroups(12, page)
+                setTotalPages(data.totalPages)
+                setGrupos(data.payload);
+            } catch (error) {
+                console.error('Error fetching groups:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGroups();
+    }, [page]);
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash) {
+            const element = document.getElementById(location.hash.substring(1));
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [location]);
     return (
-        <div className="bg-primary w-full overflow-hidden">
+        <section id='allGroups' className="bg-primary w-full overflow-hidden">
             <div className={`${styles.paddingX} ${styles.flexCenter}`}>
                 <div className={`${styles.boxWidth}`}>
                     <Navbar />
                 </div>
             </div>
-            <PaginationNumber />
+            {totalPages > 1 && <PaginationNumber totalPages={totalPages} page={page} setPage={setPage} />}
 
             <div className={`bg-primary ${styles.flexStart}`}>
                 <div className={`${styles.boxWidth}`}>
-                    <section id="groups" className={`${styles.paddingY}`}>
+                    <section className={`${styles.paddingY}`}>
 
 
                         <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-                            
-                            <Link to={`/groups/1`} className='relative mt-20'>
-                                <div className="absolute top-0 z-[0] w-full -mt-25 h-30 md:h-35">
-                                    <img
-                                        src="https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-6/326332255_1197621694195013_2949145340276907201_n.jpg?stp=dst-jpg_s960x960&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFtUk9TSl9GcjKo2rAJ8LxY5dSjEPtvDMbl1KMQ-28MxnPLxNTjHmX2KRfMmVKqspbSuN4qzI6BfUzrTvEleGxw&_nc_ohc=ub95tzaj1nIQ7kNvgEdlG0m&_nc_ht=scontent.flim33-1.fna&oh=00_AYCi4Pu33ILEfAjl9Sf7DKkyb7gv9YLjRitSon8NccSF1A&oe=6661D83F"
-                                        alt="profile cover"
-                                        className="h-full w-full object-cover object-center rounded-xl"
-                                    />
-                                </div>
-                                <div  className="relative bg-black-gradient-2 p-6 flex flex-col items-center gap-2 text-center text-gray-300 z-[1]">
-                                    <img
-                                        src='https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-1/434493740_817644583724303_4719665726187510333_n.jpg?stp=dst-jpg_p200x200&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFLp_qEr10WEbtBGreQDCA3ClObpG6JhDwKU5ukbomEPHgP6wgtCTDdukrXks82XrlStVTCoKWcsbRRJLcxOt4O&_nc_ohc=mUYLCCYJT9MQ7kNvgF0mAd4&_nc_ht=scontent.flim33-1.fna&oh=00_AYBdHRilJOtwOIp4WO3VSJnunXQvSlWt2uGNnfqxodsR7g&oe=666201A8'
-                                        className="w-40 h-40 object-cover -mt-20 shadow-2xl rounded-full"
-                                    />
-                                    <p className="font-poppins font-semibold xs:text-[20px] text-[18px] text-white">Centro Cultural Nucleo</p>
-                                    <p className={`xs:text-[16px] text-[12px] leading-[25px] font-poppins font-normal text-sl text-start line-clamp-4 text-dimWhite`}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, dolorum. Repellat facilis, dolorum consequuntur ea tempore fuga debitis, dolores ab labore ipsum quidem! Qui fugit aliquam, eveniet fugiat officia fuga.</p>
-                                    <div className='flex gap-5'>
-                                        <BsFacebook className='w-5 fill-white' />
-                                        <BsWhatsapp className='w-5 fill-white' />
-                                        <BsInstagram className='w-5 fill-white' />
-                                    </div>
-                                </div>
-                            </Link>
-                            
+
+                            {loading ? (
+                                Array.from({ length: 12 }).map((_, index) =>
+                                    <div key={index} className="relative mt-20 animate-pulse">
+                                        <div className="absolute bg-dimWhite top-0 z-[0] w-full -mt-25 h-30 md:h-35 bg-gray-300 rounded-xl"></div>
+                                        <div className="relative bg-gray bg-gray-300 p-6 flex flex-col items-center gap-2 text-center text-gray-300 z-[1]">
+                                            <div className="w-40 bg-gray h-40 rounded-full -mt-20 shadow-2xl"></div>
+                                            <p className="bg-zinc-500 rounded-md w-3/4 h-4"></p>
+                                            <p className="bg-zinc-500 rounded-md w-3/4 h-4"></p>
+                                            <p className="bg-zinc-500 rounded-md w-3/4 h-4"></p>
+                                            <p className="bg-zinc-500 rounded-md w-3/4 h-4"></p>
+                                            <p className="line-clamp-4 bg-gray-400 rounded-md w-full h-10"></p>
+                                            <div className='flex gap-5'>
+                                                <div className="w-5 h-5 bg-zinc-500 rounded-full"></div>
+                                                <div className="w-5 h-5 bg-zinc-500 rounded-full"></div>
+                                                <div className="w-5 h-5 bg-zinc-500 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>)
+                            ) : (
+                                grupos.map((grupo, index) => (
+                                    <Link to={`/groups/${grupo.id}`} key={index} className='relative mt-20'>
+                                        <div className="absolute top-0 z-[0] w-full -mt-25 h-30 md:h-35">
+                                            <img
+                                                src={grupo.background.ref}
+                                                alt={grupo.background.name}
+                                                className="h-full w-full object-cover object-center rounded-xl"
+                                            />
+                                        </div>
+                                        <div className="relative bg-black-gradient-2 p-6 flex flex-col items-center gap-2 text-center text-gray-300 z-[1]">
+                                            <img
+                                                src={grupo.img.ref}
+                                                alt={grupo.img.name}
+                                                className="w-40 h-40 object-cover -mt-20 shadow-2xl rounded-full"
+                                            />
+                                            <p className="font-poppins font-semibold xs:text-[20px] text-[18px] text-white">{grupo.name}</p>
+                                            <p className={`xs:text-[16px] text-[12px] leading-[25px] font-poppins font-normal text-sl text-start line-clamp-4 text-dimWhite`}>{grupo.description}</p>
+                                            <div className='flex gap-5'>
+                                                {grupo.linkFacebook && <BsFacebook className='w-5 fill-white' />}
+                                                {grupo.linkWhatsapp && <BsWhatsapp className='w-5 fill-white' />}
+                                                {grupo.linkInstagram && <BsInstagram className='w-5 fill-white' />}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))
+                            )}
+
 
                         </div>
 
@@ -58,7 +113,7 @@ function MainGroups() {
                     <Footer />
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
 
