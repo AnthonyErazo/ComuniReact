@@ -13,6 +13,7 @@ const Footer = () => {
     email: '',
     message: ''
   });
+  const [loading, setLoading] = useState(false);
   const resetForm = () => {
     setFormData({
       name: '',
@@ -27,6 +28,7 @@ const Footer = () => {
     e.preventDefault();
     const fetchSendMessage = async () => {
       console.log(formData)
+      setLoading(true)
       cycleComplete(true)
       try {
         const data = await createMessage(formData)
@@ -35,13 +37,13 @@ const Footer = () => {
         console.error(error)
       } finally {
         resetForm();
-        cycleComplete(false);
+        setLoading(false);
       }
     };
     fetchSendMessage();
 
   };
-  if(!cycleComplete) return <Loading words={["No vamos a responder..."]} cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
+  if(loading||!cycleComplete) return <Loading words={["No vamos a responder..."]} cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
   return (
     <>
       <section className={`${styles.flexCenter} ${styles.marginY} ${styles.padding} sm:flex-row flex-col bg-black-gradient-2 rounded-[20px] box-shadow`}>
