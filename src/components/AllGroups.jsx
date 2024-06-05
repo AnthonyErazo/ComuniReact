@@ -4,103 +4,58 @@ import Breadcrumb from './Breadcrumb';
 import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
 import { background, user } from '../assets';
-import { getGroups } from '../services/groupService';
+import { deleteGroup, getGroups } from '../services/groupService';
 
 export default function AllGroups() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const brandData = [
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    {
-      logo: user,
-      name: 'Google',
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quibusdam quasi rerum blanditiis reiciendis, quo labore maiores excepturi? Illo autem ipsam ullam accusantium incidunt in, dolores odit explicabo consequatur soluta.',
-      linkFacebook: 'http:\\facebook.com',
-      linkInstagram: 'http:\\facebook.com',
-      linkWhatsapp: 'http:\\facebook.com',
-      background: background,
-    },
-    
-  ];
   const [loading, setLoading] = useState(false);
-    const [groups, setGroups] = useState([]);
-    const [totalPages, setTotalPages] = useState(null)
-    const [page, setPage] = useState(1)
-    useEffect(() => {
-        const fecthAllGroups = async () => {
-            try {
-                setLoading(true)
-                const data = await getGroups(10, page,'{"status":true}')
-                setTotalPages(data.totalPages)
-                setGroups(data.payload);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const [groups, setGroups] = useState([]);
+  const [totalPages, setTotalPages] = useState(null)
+  const [page, setPage] = useState(1)
+  useEffect(() => {
+    const fecthAllGroups = async () => {
+      try {
+        setLoading(true)
+        const data = await getGroups(5, page, '{"status":true}')
+        setTotalPages(data.totalPages)
+        setGroups(data.payload);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fecthAllGroups();
-    }, [page]);
-    const handleDeleteGroup=()=>{
+    fecthAllGroups();
+  }, [page]);
+  const handleDeleteGroup = () => {
+    const fecthDeleteGroup = async () => {
+      try {
+        setLoading(true)
+        const data = await deleteGroup(gid)
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching group:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    }
-  const columns = ["Name", "Description", "Facebook", "Instagram", "Whatsapp", "Background Image"]
+    fecthDeleteGroup();
+  }
+  const columns = ["Name", "Description", "Links", "Background Image"]
   return (
     <DashboardLayout>
       <Breadcrumb pageName="All Groups" />
       <div className="flex flex-col gap-10">
-        <PaginationNumber page={page} totalPages={totalPages} setPage={setPage}/>
+        <PaginationNumber page={page} totalPages={totalPages} setPage={setPage} />
         <div className="rounded-sm border px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="max-w-full overflow-x-auto">
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left bg-meta-4">
                   {columns.map((colum, index) => (
-                    <th key={index} className="min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
+                    <th key={index} className="text-center min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
                       {colum}
                     </th>
                   ))}
@@ -112,7 +67,7 @@ export default function AllGroups() {
                     <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
                       <div className="flex items-center gap-3 p-2.5 xl:p-5">
                         <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
-                          <img className='cursor-pointer' src={group.img.ref} onClick={() => setSelectedImage(group.img.ref)} alt={group.img.name} />
+                          <img className='cursor-pointer' src={group.img?.ref||user} onClick={() => setSelectedImage(group.img?.ref||user)} alt={group.img?.name||'user'} />
                         </div>
                         <p className="hidden  text-white sm:block">
                           {group.name}
@@ -124,31 +79,29 @@ export default function AllGroups() {
                         {group.description}
                       </p>
                     </td>
-                    <td className="border-b  py-5 px-4 border-strokedark">
-                      <p
-                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                    <td className="border-b flex flex-col py-5 px-4 border-strokedark">
+                      {group.linkFacebook && <p
+                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                       >
                         {group.linkFacebook}
-                      </p>
-                    </td>
-                    <td className="border-b  py-5 px-4 border-strokedark">
-                      <p
-                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                      </p>}
+                      {group.linkInstagram && <p
+                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                       >
                         {group.linkInstagram}
-                      </p>
-                    </td>
-                    <td className="border-b  py-5 px-4 border-strokedark">
-                      <p
-                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                      </p>}
+                      {group.linkWhatsapp && <p
+                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                       >
                         {group.linkWhatsapp}
-                      </p>
+                      </p>}
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
-                        <img onClick={() => setSelectedImage(group.background.ref)} src={group.background.ref} className='h-20 w-20 cursor-pointer' alt={group.background.name} />
-                        <FaTrash onClick={()=> handleDeleteGroup(group._id)} className='w-7 fill-primary bg-white p-1 rounded-lg' />
+                        <img onClick={() => setSelectedImage(group.background?.ref||background)} src={group.background?.ref||background} className='h-20 cursor-pointer w-full' alt={group.background?.name||'background'} />
+                        <button onClick={() => handleDeleteGroup(group._id)}>
+                          <FaTrash className='w-7 fill-primary bg-white p-1 rounded-lg' />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -226,12 +179,12 @@ export default function AllGroups() {
               </div>
             ))}
           </div> */}
-          {selectedImage && (
-                                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
-                                    <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
-                                    <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
-                                </div>
-                            )}
+        {selectedImage && (
+          <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
+            <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
+            <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
+          </div>
+        )}
       </div>
     </DashboardLayout>
   )

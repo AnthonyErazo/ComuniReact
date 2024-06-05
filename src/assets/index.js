@@ -21,10 +21,12 @@ import imagen10 from './imagen10.webp'
 import imagen11 from './imagen11.webp'
 import user from './user.webp'
 import background from './background.webp'
+import backgroundNotice from './backgroundNotice.webp'
 
 
 
 export {
+  backgroundNotice,
   user,
   background,
   logo,

@@ -65,9 +65,9 @@ const Footer = () => {
             </div>
           </div>
           <form className='form-contact' action="#" autoComplete="off">
-            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Tu Nombre" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" />
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Tu Email" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" />
-            <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Tu Mensaje..." className="w-full min-h-[140px] max-h-[150px] p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none"></textarea>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Tu Nombre" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Tu Email" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required />
+            <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Tu Mensaje..." className="w-full min-h-[140px] max-h-[150px] p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required></textarea>
             <button onClick={handleSendMessage} type="button" className={`py-4 px-6 font-poppins font-medium text-[18px] text-primary bg-blue-gradient rounded-[10px] outline-none`}>
               Enviar
             </button>

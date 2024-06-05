@@ -1,12 +1,145 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import { FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { IoLogoInstagram } from 'react-icons/io'
 import { AiFillEdit } from 'react-icons/ai'
 import { background, user } from '../assets'
+import { addImageGroup, getMyGroup, updateGroup } from '../services/groupService'
 
 export default function MyGroup() {
+  const [backgroundImage, setBackgroundImage] = useState('');
+  const [profileImage, setProfileImage] = useState('');
+  const [backgroundFile, setBackgroundFile] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [myGroup, setMyGroup] = useState(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    linkFacebook: '',
+    linkWhatsapp: '',
+    linkInstagram: '',
+    description: ''
+  });
+
+  const handleImageChange = (e, setImage,setFile) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setFile(e.target.files[0])
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const fecthUpdategroup=async ()=>{
+      try{
+        setLoading(true)
+        const data=await updateGroup(myGroup._id,formData)
+        console.log(data)
+      }catch (error){
+        console.error('Error fetching my group:', error)
+      }finally{
+        setLoading(false)
+      }
+    }
+    fecthUpdategroup()
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleCancel = (e) => {
+    e.preventDefault()
+    setFormData({
+      name: myGroup.name,
+      linkFacebook: myGroup.linkFacebook,
+      linkWhatsapp: myGroup.linkWhatsapp,
+      linkInstagram: myGroup.linkInstagram,
+      description: myGroup.description
+    });
+  };
+  const handleCancelBackground = (e) => {
+    e.preventDefault()
+    setBackgroundImage(myGroup.background.ref);
+    setBackgroundFile(null)
+  };
+  const handleCancelProfile = (e) => {
+    e.preventDefault()
+    setProfileImage(myGroup.img.ref);
+    setProfileFile(null)
+  };
+  const handleChangeBackground = async (e) => {
+    e.preventDefault()
+    if (!backgroundFile) {
+      alert('Please select a different image before saving.');
+      return;
+    }
+
+    const images = new FormData();
+    images.append('file', backgroundFile);
+
+    try {
+      setLoading(true);
+      const dataBackground = await addNoticeImage(images);
+      console.log(dataBackground);
+    } catch (error) {
+      console.error('Error adding notice image:', error);
+    } finally {
+      setNoticeImage(backgroundNotice);
+      setNoticeFile(null);
+      setLoading(false);
+    }
+  };
+  const handleChangeProfile = async (e) => {
+    e.preventDefault()
+    if (!profileFile) {
+      alert('Please select a different image before saving.');
+      return;
+    }
+
+    const images = new FormData();
+    images.append('file', profileFile);
+
+    try {
+      setLoading(true);
+      const dataProfile = await addImageGroup(images);
+      console.log(dataProfile);
+    } catch (error) {
+      console.error('Error adding notice image:', error);
+    } finally {
+      setProfileFile(null);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    const fecthMyGroup = async () => {
+      try {
+        setLoading(true)
+        const data = await getMyGroup()
+        setBackgroundImage(data.payload.background.ref||background)
+        setProfileImage(data.payload.img.ref||user)
+        setMyGroup(data.payload)
+        console.log(data.payload)
+        setFormData({
+          name: data.payload.name,
+          linkFacebook: data.payload.linkFacebook,
+          linkWhatsapp: data.payload.linkWhatsapp,
+          linkInstagram: data.payload.linkInstagram,
+          description: data.payload.description
+        })
+      } catch (error) {
+        console.error('Error fetching my group:', error)
+      } finally {
+        setLoading(false)
+      }
+
+    }
+    fecthMyGroup()
+  }, [])
+  if (loading) return <>Loading...</>
   return (
     <DashboardLayout>
       <div className="mx-auto max-w-270">
@@ -21,11 +154,11 @@ export default function MyGroup() {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleSubmit}>
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="emailAddress"
+                      htmlFor="nameGroup"
                     >
                       Name Group
                     </label>
@@ -58,10 +191,11 @@ export default function MyGroup() {
                       <input
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
                         type="text"
-                        name="nameGroup"
                         id="nameGroup"
+                        name="nameGroup"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="My group"
-                        defaultValue="My group"
                       />
                     </div>
                   </div>
@@ -69,7 +203,7 @@ export default function MyGroup() {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="emailAddress"
+                      htmlFor="linkFacebook"
                     >
                       Link Facebook
                     </label>
@@ -80,17 +214,18 @@ export default function MyGroup() {
                       <input
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
                         type="text"
+                        value={formData.linkFacebook}
                         name="linkFacebook"
+                        onChange={handleChange}
                         id="linkFacebook"
                         placeholder="https://www.facebook.com/"
-                        defaultValue="https://www.facebook.com/"
                       />
                     </div>
                   </div>
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="emailAddress"
+                      htmlFor="linkWhatsapp"
                     >
                       Link Whatsapp
                     </label>
@@ -101,17 +236,18 @@ export default function MyGroup() {
                       <input
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
                         type="text"
-                        name="linkFacebook"
-                        id="linkFacebook"
+                        value={formData.linkWhatsapp}
+                        name="linkWhatsapp"
+                        onChange={handleChange}
+                        id="linkWhatsapp"
                         placeholder="https://wa.me/"
-                        defaultValue="https://wa.me/"
                       />
                     </div>
                   </div>
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="emailAddress"
+                      htmlFor="linkInstagram"
                     >
                       Link Instagram
                     </label>
@@ -122,10 +258,11 @@ export default function MyGroup() {
                       <input
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
                         type="text"
+                        value={formData.linkInstagram}
+                        onChange={handleChange}
                         name="linkInstagram"
                         id="linkInstagram"
                         placeholder="https://www.instagram.com/"
-                        defaultValue="https://www.instagram.com/"
                       />
                     </div>
                   </div>
@@ -133,7 +270,7 @@ export default function MyGroup() {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="Username"
+                      htmlFor="description"
                     >
                       Description
                     </label>
@@ -144,11 +281,12 @@ export default function MyGroup() {
 
                       <textarea
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
-                        name="bio"
-                        id="bio"
+                        name="description"
+                        id="description"
+                        onChange={handleChange}
+                        value={formData.description}
                         rows={6}
-                        placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
+                        placeholder="Write your description here"
                       ></textarea>
                     </div>
                   </div>
@@ -156,7 +294,7 @@ export default function MyGroup() {
                   <div className="flex justify-end gap-4.5">
                     <button
                       className="flex justify-center rounded border  py-2 px-6 font-medium hover:shadow-1 border-strokedark text-white"
-                      type="submit"
+                      onClick={handleCancel}
                     >
                       Cancel
                     </button>
@@ -179,11 +317,13 @@ export default function MyGroup() {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleChangeProfile}>
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
                       <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
-                        <img src={user} alt="profile" />
+                        <img
+                          src={profileImage}
+                          alt={myGroup.img?.name || 'profile'} />
                       </div>
                     </div>
                     <div>
@@ -199,6 +339,7 @@ export default function MyGroup() {
                     <input
                       type="file"
                       accept="image/*"
+                      onChange={(e) => handleImageChange(e, setProfileImage,setProfileFile)}
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                     />
                     <div className="flex flex-col items-center justify-center space-y-3">
@@ -244,7 +385,7 @@ export default function MyGroup() {
                   <div className="flex justify-end gap-4.5">
                     <button
                       className="flex justify-center rounded borderpy-2 px-6 font-medium hover:shadow-1 border-strokedark text-white"
-                      type="submit"
+                      onClick={handleCancelProfile}
                     >
                       Cancel
                     </button>
@@ -268,8 +409,8 @@ export default function MyGroup() {
               </div>
               <div className="relative z-20 h-35 md:h-65">
                 <img
-                  src={background}
-                  alt="profile cover"
+                  src={backgroundImage}
+                  alt={myGroup.background?.name || 'background'}
                   className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                 />
               </div>
@@ -278,7 +419,7 @@ export default function MyGroup() {
                 <div className="mt-4">
 
                   <div className="mt-6.5">
-                    <form action="#">
+                    <form onSubmit={handleChangeBackground}>
                       <div className="mb-4 flex items-center gap-3">
                         <div>
                           <span className="mb-1.5  text-white">
@@ -293,6 +434,7 @@ export default function MyGroup() {
                         <input
                           type="file"
                           accept="image/*"
+                          onChange={(e) => handleImageChange(e, setBackgroundImage,setBackgroundFile)}
                           className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                         />
                         <div className="flex flex-col items-center justify-center space-y-3">
@@ -331,14 +473,14 @@ export default function MyGroup() {
                             drag and drop
                           </p>
                           <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                          <p>(max, 800 X 800px)</p>
+                          <p>(max, 1920 X 1080px)</p>
                         </div>
                       </div>
 
                       <div className="flex justify-end gap-4.5">
                         <button
                           className="flex justify-center rounded borderpy-2 px-6 font-medium hover:shadow-1 border-strokedark text-white"
-                          type="submit"
+                          onClick={handleCancelBackground}
                         >
                           Cancel
                         </button>

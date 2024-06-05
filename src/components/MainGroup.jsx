@@ -3,16 +3,17 @@ import styles from '../style'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
-import Pagination from './PaginationNumber'
 import { SomeGroups } from '.'
 import { useLocation, useParams } from 'react-router-dom'
-import { getGroupbyId } from '../services/groupService'
+import { getGroupbyId, getNotices } from '../services/groupService'
+import PaginationNumber from './PaginationNumber'
+import NoticeSection from './NoticeSection'
 
 function MainGroup() {
     const { gid } = useParams()
     const [loading, setLoading] = useState(true);
     const [grupo, setGrupo] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
+    
     useEffect(() => {
         const fetchGroup = async () => {
             try {
@@ -128,31 +129,8 @@ function MainGroup() {
                                 </p>
                             </div>
                         </div>
-                        <Pagination />
                     </section>
-                    {loading ? (<section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5 animate-pulse'>
-                        {[...Array(6)].map((_, index) => (
-                            <div key={index} className="bg-dimWhite w-full h-[250px] sm:h-[400px] lg:h-[390px] rounded-lg"></div>
-                        ))}
-                    </section>) : (
-                        <section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5'>
-                            {grupo?.notice.map((notice, index) => (
-                                <img
-                                    key={index}
-                                    src={notice.ref}
-                                    alt={notice.name}
-                                    onClick={() => setSelectedImage(notice.ref)}
-                                    className='w-full h-auto object-cover rounded-lg cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105'
-                                />
-                            ))}
-                            {selectedImage && (
-                                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
-                                    <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
-                                    <img className='max-w-[550px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
-                                </div>
-                            )}
-                        </section>
-                    )}
+                    <NoticeSection gid={gid}/>
                     <SomeGroups />
                     <Footer />
                 </div>

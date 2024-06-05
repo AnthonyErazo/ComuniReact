@@ -38,9 +38,9 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
                 setDataUser(data)
             } catch (error) {
                 console.error(error)
-                if (error.response.data == 'Access forbidden') {
-                    navigate('/login')
-                }
+                // if (error.response.data == 'Access forbidden') {
+                //     navigate('/login')
+                // }
             }
         }
         fetchDataUser()

@@ -3,8 +3,8 @@ import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
-import { BiMessageAdd } from 'react-icons/bi';
 import { deleteMessage, getMessages, responseMessage } from '../services/messages';
+import { BiMessageAdd } from 'react-icons/bi';
 
 export default function Messages() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export default function Messages() {
     const fecthMessages = async () => {
       try {
         setLoading(true)
-        const data = await getMessages(10, page)
+        const data = await getMessages(5, page)
         setTotalPages(data.totalPages)
         setMessages(data.payload);
       } catch (error) {
@@ -33,8 +33,9 @@ export default function Messages() {
       try {
         setLoading(true)
         const data = await deleteMessage(mid)
+        console.log(data)
       } catch (error) {
-        console.error('Error fetching groups:', error);
+        console.error('Error fetching delete message:', error);
       } finally {
         setLoading(false);
       }
@@ -42,20 +43,22 @@ export default function Messages() {
 
     fecthDeleteMessage();
   }
-  // const handleResponseMessage = (mid) => {
-  //   const fecthResponseMessages = async () => {
-  //     try {
-  //       setLoading(true)
-  //       const data = await responseMessage(mid, page)
-  //     } catch (error) {
-  //       console.error('Error fetching groups:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  const handleResponseMessage = (mid) => {
+    let message="hola como estas"
+    const fecthResponseMessages = async () => {
+      try {
+        setLoading(true)
+        const data = await responseMessage(mid, {message})
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fecthResponseMessages();
-  // }
+    fecthResponseMessages();
+  }
   const columns = ["Name", "Email", "Message", "Actions"]
   if (loading) return <>Loading...</>
   return (
@@ -89,15 +92,15 @@ export default function Messages() {
                       </p>
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
-                      <p className="text-white h-30 scroll-py-px overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+                      <p className="text-white h-30 w-full scroll-py-px overflow-y-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
                         {message.message}
                       </p>
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <div className="flex items-center space-x-3.5 gap-5 justify-center">
-                        {/* <button onClick={() => handleResponseMessage(message._id)} className="hover:text-primary">
+                        <button onClick={() => handleResponseMessage(message._id)} className="hover:text-primary">
                           <BiMessageAdd className='fill-white' />
-                        </button> */}
+                        </button>
                         <button onClick={() => handleDeleteMessage(message._id)} className="hover:text-primary">
                           <FaTrash className='fill-white' />
                         </button>

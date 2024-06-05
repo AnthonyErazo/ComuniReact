@@ -5,7 +5,7 @@ import PaginationNumber from './PaginationNumber';
 import { FaExchangeAlt, FaTrash } from 'react-icons/fa';
 import { background, user } from '../assets';
 import { getAllUsers } from '../services/userService';
-import { getGroups } from '../services/groupService';
+import { deleteGroup, getGroups, updateGroup } from '../services/groupService';
 
 
 export default function Users() {
@@ -18,7 +18,7 @@ export default function Users() {
         const fecthNewUsers = async () => {
             try {
                 setLoading(true)
-                const data = await getGroups(10, page,'{"status":false}')
+                const data = await getGroups(5, page,'{"status":false}')
                 setTotalPages(data.totalPages)
                 setGroups(data.payload);
             } catch (error) {
@@ -30,11 +30,35 @@ export default function Users() {
 
         fecthNewUsers();
     }, [page]);
-    const handleChangeStatusGroup=()=>{
-        
-    }
-    const handleDeleteGroup=()=>{
+    const handleChangeStatusGroup=(gid)=>{
+        const fecthChangeStatus = async () => {
+            try {
+                setLoading(true)
+                const data = await updateGroup(gid,{status:true})
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching group:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        fecthChangeStatus();
+    }
+    const handleDeleteGroup=(gid)=>{
+        const fecthDeleteGroup = async () => {
+            try {
+                setLoading(true)
+                const data = await deleteGroup(gid)
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching group:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fecthDeleteGroup();
     }
     const columns = ["Name Group", "Description", "Images", "Links", "Actions"]
     return (
@@ -48,14 +72,14 @@ export default function Users() {
                             <thead>
                                 <tr className=" text-left bg-meta-4">
                                     {columns.map((colum, index) => (
-                                        <th key={index} className="min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
+                                        <th key={index} className="min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11 text-center">
                                             {colum}
                                         </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
-                                {groups.map((group, key) => (
+                                {groups?.map((group, key) => (
                                     <tr key={key}>
                                         <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
                                             <h5 className="font-medium  text-white">
@@ -68,27 +92,27 @@ export default function Users() {
                                             </p>
                                         </td>
                                         <td className="border-b  py-5 px-4 border-strokedark">
-                                            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
-                                                <img src={group.img.ref} onClick={() => setSelectedImage(group.img.ref)} className='h-20 w-20 cursor-pointer' alt={group.img.name} />
-                                                <img src={group.background.ref} onClick={() => setSelectedImage(group.background.ref)} className='h-20 w-20 cursor-pointer' alt={group.background.name} />
+                                            <div className="hidden w-full p-7 items-center justify-center sm:flex xl:p-5 gap-5">
+                                                <img src={group.img?.ref||user} onClick={() => setSelectedImage(group.img?.ref||user)} className='h-20 w-full cursor-pointer' alt={group.img?.name||'user'} />
+                                                <img src={group.background?.ref||background} onClick={() => setSelectedImage(group.background?.ref||background)} className='h-20 w-full cursor-pointer' alt={group.background?.name||'background'} />
                                             </div>
                                         </td>
                                         <td className="border-b flex flex-col  py-5 px-4 border-strokedark gap-2">
-                                            <p
+                                            {group.linkFacebook&&<p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkFacebook}
-                                            </p>
-                                            <p
+                                            </p>}
+                                            {group.linkWhatsapp&&<p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkWhatsapp}
-                                            </p>
-                                            <p
+                                            </p>}
+                                            {group.linkInstagram&&<p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkInstagram}
-                                            </p>
+                                            </p>}
                                         </td>
                                         <td className="border-b  py-5 px-4 border-strokedark">
                                             <div className="flex items-center justify-center space-x-3.5 gap-5">

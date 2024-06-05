@@ -11,7 +11,7 @@ export default function Breadcrumb({ pageName }) {
             <nav>
                 <ol className="flex items-center gap-2 text-white">
                     <li>
-                        <Link className="font-medium" to="/dashboard/">
+                        <Link className="font-medium" to="/dashboard/inicio">
                             Dashboard /
                         </Link>
                     </li>

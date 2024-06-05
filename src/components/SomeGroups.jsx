@@ -10,7 +10,7 @@ import { getGroups } from '../services/groupService';
 
 function Testimonials() {
   const { gid } = useParams()
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [grupos, setGrupos] = useState([]);
 
   useEffect(() => {

@@ -1,19 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import { Link } from 'react-router-dom';
 import { FaCamera, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { background, user } from '../assets';
+import { getMyGroup } from '../services/groupService';
+import { updateUser } from '../services/userService';
 
 export default function Profile() {
+    const [loading,setLoading]=useState(true)
+    const [myGroup,setMyGroup]=useState(false)
+    const [password,setPassword]=useState('')
+    const [email,setEmail]=useState('')
+    useEffect(()=>{
+        const fecthMyGroup=async ()=>{
+            try{
+                const data=await getMyGroup()
+                setMyGroup(data.payload)
+            }catch (error){
+                console.error('Error fetching my group:', error)
+            }finally{
+                setLoading(false)
+            }
+        }
+        fecthMyGroup()
+    },[])
+    const handleChangeEmail =(e)=>{
+        e.preventDefault()
+        const fecthChangeEmail=async()=>{
+            try{
+                setLoading(true)
+                const data=await updateUser({email})
+                console.log(data)
+            }catch (error){
+                console.error('Error fetching change email:', error)
+            }finally{
+                setLoading(false)
+            }
+        }
+        fecthChangeEmail()
+        setEmail('')
+    }
+    const handleChangePassword =(e)=>{
+        e.preventDefault()
+        const fecthChangePassword=async()=>{
+            try{
+                setLoading(true)
+                const data=await updateUser({password})
+                console.log(data)
+            }catch (error){
+                console.error('Error fetching change password:', error)
+            }finally{
+                setLoading(false)
+            }
+        }
+        fecthChangePassword()
+        setPassword('')
+    }
+    if(loading) return <>Loading...</>
     return (
         <DashboardLayout>
             <Breadcrumb pageName="Profile" />
             <div className="overflow-hidden rounded-sm border shadow-default border-strokedark bg-boxdark">
                 <div className="relative z-20 h-35 md:h-65">
                     <img
-                        src={background}
-                        alt="profile cover"
+                        src={myGroup.background?.ref||background}
+                        alt={myGroup.background?.name||'background'}
                         className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                     />
                     <Link to={'/dashboard/myGroup'} className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
@@ -33,7 +85,7 @@ export default function Profile() {
                     <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
                         <div className="relative drop-shadow-2">
                             <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
-                                <img src={user} alt="profile" />
+                                <img src={myGroup.img?.ref||user} alt={myGroup.img?.name||"user"} />
                             </div>
                             <label
                                 htmlFor="profile"
@@ -53,16 +105,12 @@ export default function Profile() {
                     </div>
                     <div className="mt-4">
                         <h3 className="mb-1.5 text-2xl font-semibold  text-white">
-                            Danish Heilium
+                            {myGroup?.name||`'Nombre de su grupo'`}
                         </h3>
 
                         <div className="mx-auto max-w-180">
-                            <p className="mt-4.5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Pellentesque posuere fermentum urna, eu condimentum mauris
-                                tempus ut. Donec fermentum blandit aliquet. Etiam dictum dapibus
-                                ultricies. Sed vel aliquet libero. Nunc a augue fermentum,
-                                pharetra ligula sed, aliquam lacus.
+                            <p className="mt-4.5 text-white">
+                                {myGroup?.description||`'Descripcion de su grupo'`}
                             </p>
                         </div>
 
@@ -71,27 +119,30 @@ export default function Profile() {
                                 My social networks
                             </h4>
                             <div className="flex items-center justify-center gap-8">
-                                <Link
-                                    to="#"
+                                {myGroup.linkFacebook&&<a
+                                    href={myGroup.linkFacebook} 
+                                    target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
                                     <FaFacebookF className='fill-white w-6' />
-                                </Link>
-                                <Link
-                                    to="#"
+                                </a>}
+                                {myGroup.linkWhatsapp&&<a
+                                    href={myGroup.linkFacebook} 
+                                    target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
                                     <FaWhatsapp className='fill-white w-6' />
-                                </Link>
-                                <Link
-                                    to="#"
+                                </a>}
+                                {myGroup.linkInstagram&&<a
+                                    href={myGroup.linkInstagram} 
+                                    target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
                                     <FaInstagram className='fill-white w-6' />
-                                </Link>
+                                </a>}
                             </div>
                         </div>
                     </div>
@@ -100,7 +151,7 @@ export default function Profile() {
             <div className=' grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5'>
                 <div className="flex flex-col gap-9">
                     <div className="rounded-sm border shadow-default border-strokedark bg-boxdark">
-                        <form action="#">
+                        <form onSubmit={handleChangeEmail}>
                             <div className="p-6.5">
                                 <div className="mb-4.5 flex flex-col gap-6">
                                     <div className="w-full">
@@ -108,13 +159,17 @@ export default function Profile() {
                                             Change Email
                                         </label>
                                         <input
-                                            type="text"
+                                            required
+                                            type="email"
+                                            onChange={(e)=>setEmail(e.target.value)}
+                                            value={email}
+                                            name='email'
                                             placeholder="Enter your email"
                                             className="w-full rounded border-[1.5px] bg-transparent py-3 px-5  outline-none transition active:border-primary disabled:cursor-default disabled:bg-whiter border-form-strokedark bg-form-input text-white focus:border-primary"
                                         />
                                     </div>
                                 </div>
-                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Change
                                 </button>
                             </div>
@@ -123,7 +178,7 @@ export default function Profile() {
                 </div>
                 <div className="flex flex-col gap-9">
                     <div className="rounded-sm border shadow-default border-strokedark bg-boxdark">
-                        <form action="#">
+                        <form onSubmit={handleChangePassword} >
                             <div className="p-6.5">
                                 <div className="mb-4.5 flex flex-col gap-6 ">
                                     <div className="w-full ">
@@ -131,13 +186,17 @@ export default function Profile() {
                                         Change Password
                                         </label>
                                         <input
+                                            required
                                             type="text"
+                                            name='password'
+                                            onChange={(e)=>setPassword(e.target.value)}
+                                            value={password}
                                             placeholder="Enter your password"
                                             className="w-full rounded border-[1.5px] bg-transparent py-3 px-5 outline-none transition active:border-primary disabled:cursor-default disabled:bg-whiter border-form-strokedark bg-form-input text-white focus:border-primary"
                                         />
                                     </div>
                                 </div>
-                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Change
                                 </button>
                             </div>

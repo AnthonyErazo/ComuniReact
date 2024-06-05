@@ -6,7 +6,7 @@ const endpoints = {
         getAll: `${API_BASE_URL}/users/`,
         getData: `${API_BASE_URL}/users/data`,
         getById: (uid) => `${API_BASE_URL}/users/${uid}`,
-        update: (uid) => `${API_BASE_URL}/users/${uid}`,
+        update: `${API_BASE_URL}/users/`,
         delete: (uid) => `${API_BASE_URL}/users/${uid}`
     },
     auth: {
@@ -23,8 +23,14 @@ const endpoints = {
     groups: {
         getAll:`${API_BASE_URL}/groups/`,
         getById:(gid)=>`${API_BASE_URL}/groups/${gid}`,
+        getNotices:(gid)=>`${API_BASE_URL}/groups/${gid}/notices`,
+        getMyGroup:`${API_BASE_URL}/groups/data`,
+        delete:(gid)=>`${API_BASE_URL}/groups/${gid}`,
         update:(gid)=>`${API_BASE_URL}/groups/${gid}`,
-        addImageGroup:(gid)=>`${API_BASE_URL}/groups/${gid}/image`,
+        addImageGroup:`${API_BASE_URL}/groups/image`,
+        addBackgroundGroup:`${API_BASE_URL}/groups/background`,
+        addImageNotice:`${API_BASE_URL}/groups/notices`,
+        eliminatedNotice:(gid)=>`${API_BASE_URL}/groups/${gid}/notices`,
     }
 };
 

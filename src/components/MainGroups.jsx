@@ -46,7 +46,7 @@ function MainGroups() {
                     <Navbar />
                 </div>
             </div>
-            {totalPages > 1 && <PaginationNumber totalPages={totalPages} page={page} setPage={setPage} />}
+            <PaginationNumber totalPages={totalPages} page={page} setPage={setPage} />
 
             <div className={`bg-primary ${styles.flexStart}`}>
                 <div className={`${styles.boxWidth}`}>

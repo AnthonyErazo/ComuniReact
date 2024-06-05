@@ -18,8 +18,10 @@ const getUserById = async (id) => {
 };
 
 
-const updateUser = async (id, userData) => {
-    const response = await axios.put(endpoints.users.update(id), userData);
+const updateUser = async (userData) => {
+    const response = await axios.put(endpoints.users.update, userData,{
+        withCredentials: true 
+    });
     return response.data;
 };
 
