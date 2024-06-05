@@ -13,6 +13,8 @@ function MainGroups() {
     const [grupos, setGrupos] = useState([])
     const [totalPages, setTotalPages] = useState(null)
     const [page, setPage] = useState(1)
+    
+    const [cycleComplete, setCycleComplete] = useState(false);
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -40,7 +42,8 @@ function MainGroups() {
             }
         }
     }, [location]);
-    if(loading) return <Loading />
+    
+    if(loading||!cycleComplete) return <Loading cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
     return (
         <section id='allGroups' className="bg-primary w-full overflow-hidden">
             <div className={`${styles.paddingX} ${styles.flexCenter}`}>
