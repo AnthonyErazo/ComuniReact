@@ -43,7 +43,7 @@ function MainGroups() {
         }
     }, [location]);
     
-    if(loading||!cycleComplete) return <Loading cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
+    if(loading||!cycleComplete) return <Loading words={["Igual no te aceptaran..."]} cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
     return (
         <section id='allGroups' className="bg-primary w-full overflow-hidden">
             <div className={`${styles.paddingX} ${styles.flexCenter}`}>

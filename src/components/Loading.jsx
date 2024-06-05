@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const LoadingTypewriter = ({ cycleComplete,setCycleComplete,words, typingSpeed = 50, deletingSpeed = 20, delayBetweenWords = 500 }) => {
+const LoadingTypewriter = ({ setCycleComplete,words, typingSpeed = 50, deletingSpeed = 20, delayBetweenWords = 500 }) => {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [currentText, setCurrentText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
@@ -39,20 +39,18 @@ const LoadingTypewriter = ({ cycleComplete,setCycleComplete,words, typingSpeed =
     
 
     return (
-        <div className="fixed bg-primary inset-0 flex flex-col items-center justify-center bg-gray-100">
+        <div className="fixed z-[999999] bg-primary inset-0 flex flex-col items-center justify-center bg-gray-100">
             <h1 className="text-2xl text-white font-bold">{currentText}</h1>
         </div>
     );
 };
 
-const Loading = ({cycleComplete,setCycleComplete}) => {
+const Loading = ({cycleComplete,setCycleComplete,words}) => {
     useEffect(() => {
         if (cycleComplete) {
-            console.log(cycleComplete)
             setCycleComplete(false);  
         }
     }, [cycleComplete]);
-    const words = ["Espera cachimbo...", "Igual no te aceptaran..."];
     return <LoadingTypewriter cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} words={words} />;
 };
 

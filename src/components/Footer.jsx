@@ -4,14 +4,15 @@ import { MdEmail } from 'react-icons/md'
 import Button from "./Button";
 import { useState } from "react";
 import { createMessage } from "../services/messages";
+import Loading from "./Loading";
 
 const Footer = () => {
+  const [cycleComplete, setCycleComplete] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-  const [loading, setLoading] = useState(false);
   const resetForm = () => {
     setFormData({
       name: '',
@@ -26,7 +27,7 @@ const Footer = () => {
     e.preventDefault();
     const fetchSendMessage = async () => {
       console.log(formData)
-      setLoading(true)
+      cycleComplete(true)
       try {
         const data = await createMessage(formData)
         console.log(data)
@@ -34,12 +35,13 @@ const Footer = () => {
         console.error(error)
       } finally {
         resetForm();
-        setLoading(false);
+        cycleComplete(false);
       }
     };
     fetchSendMessage();
 
   };
+  if(!cycleComplete) return <Loading words={["No vamos a responder..."]} cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
   return (
     <>
       <section className={`${styles.flexCenter} ${styles.marginY} ${styles.padding} sm:flex-row flex-col bg-black-gradient-2 rounded-[20px] box-shadow`}>
