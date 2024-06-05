@@ -6,10 +6,11 @@ import { Link, useLocation } from 'react-router-dom';
 import PaginationNumber from './PaginationNumber';
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 import { getGroups } from '../services/groupService';
+import Loading from './Loading';
 
 function MainGroups() {
-    const [loading, setLoading] = useState(false);
-    const [grupos, setGrupos] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [grupos, setGrupos] = useState([])
     const [totalPages, setTotalPages] = useState(null)
     const [page, setPage] = useState(1)
 
@@ -39,6 +40,7 @@ function MainGroups() {
             }
         }
     }, [location]);
+    if(loading) return <Loading />
     return (
         <section id='allGroups' className="bg-primary w-full overflow-hidden">
             <div className={`${styles.paddingX} ${styles.flexCenter}`}>

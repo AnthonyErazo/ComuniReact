@@ -237,6 +237,10 @@ module.exports = {
         2: '0px 1px 4px rgba(0, 0, 0, 0.12)',
       },
       keyframes: {
+        wave: {
+          '0%, 100%': { transform: 'scaleY(1)' },
+          '50%': { transform: 'scaleY(1.5)' },
+        },
         rotating: {
           '0%, 100%': { transform: 'rotate(360deg)' },
           '50%': { transform: 'rotate(0deg)' },
@@ -250,6 +254,9 @@ module.exports = {
         },
       },
       animation: {
+        wave1: 'wave 1s ease-in-out infinite',
+        wave2: 'wave 1s ease-in-out 0.2s infinite',
+        wave3: 'wave 1s ease-in-out 0.4s infinite',
         'ping-once': 'ping 5s cubic-bezier(0, 0, 0.2, 1)',
         rotating: 'rotating 30s linear infinite',
         'spin-1.5': 'spin 1.5s linear infinite',

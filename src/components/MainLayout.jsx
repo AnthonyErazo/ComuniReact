@@ -6,9 +6,11 @@ import SliderItem from "./SliderItem";
 import Arrows from "./Arrows";
 import { imagen1, imagen10, imagen11, imagen3, imagen7, imagen8 } from "../assets";
 import { useLocation } from "react-router-dom";
+import Loading from "./Loading";
 
 const MainLayout = () => {
   const [itemActive, setItemActive] = useState(1);
+  const [loading, setLoading] = useState(true);
   const countItems = 6;
 
   const onNext = () => {
