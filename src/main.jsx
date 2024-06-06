@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import { AlertProvider } from './context/AlertContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AlertProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AlertProvider>
   </React.StrictMode>
 );

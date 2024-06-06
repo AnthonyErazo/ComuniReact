@@ -59,7 +59,7 @@ export default function Profile() {
     }
     if(loading) return <>Loading...</>
     return (
-        <DashboardLayout>
+        <>
             <Breadcrumb pageName="Profile" />
             <div className="overflow-hidden rounded-sm border shadow-default border-strokedark bg-boxdark">
                 <div className="relative z-20 h-35 md:h-65">
@@ -204,6 +204,6 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
-        </DashboardLayout>
+        </>
     )
 }

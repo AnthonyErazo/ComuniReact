@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { TfiEmail } from 'react-icons/tfi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { register } from '../services/authService'
+import { useAlert } from '../context/AlertContext'
+import Loading from './Loading'
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -12,6 +14,8 @@ function Register() {
         rePassword: ''
     });
     const [loading, setLoading] = useState(false);
+    const { addAlert } = useAlert();
+    const navigate=useNavigate()
     const [errorPassword, setErrorPassword] = useState('');
     const resetForm = () => {
         setFormData({
@@ -42,24 +46,18 @@ function Register() {
             }
             try {
                 const data = await register({email:formData.email,password:formData.password})
-                console.log(data)
+                addAlert('success',data.message)
+                navigate('/login');
             } catch (error) {
                 console.error(error)
-                // const alertError = {
-                //     id_toast: new Date().toString(),
-                //     message: error.response.data.cause,
-                //     duration: 4600,
-                //     type: 'error',
-                //     status_code: 400
-                // };
-                // setAlert(alertError)
+                addAlert('error',error.response.data.message)
             }
         };
         fetchRegister();
         resetForm();
         setLoading(false);
     };
-    if (loading) return <>hola</>
+    if (loading) return <Loading />
     return (
         <div className="bg-primary">
             <div className="flex h-screen overflow-hidden">
@@ -214,6 +212,7 @@ function Register() {
                                                         name="email"
                                                         value={formData.email}
                                                         onChange={handleChange}
+                                                        required
                                                         type="email"
                                                         placeholder="Enter your email"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10  outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
@@ -233,6 +232,7 @@ function Register() {
                                                     <input
                                                         name="password"
                                                         value={formData.password}
+                                                        required
                                                         onChange={handleChange}
                                                         type="password"
                                                         placeholder="Enter your password"
@@ -254,6 +254,7 @@ function Register() {
                                                         name="rePassword"
                                                         value={formData.rePassword}
                                                         onChange={handleChange}
+                                                        required
                                                         type="password"
                                                         placeholder="Re-enter your password"
                                                         className="w-full rounded-lg border bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"

@@ -62,7 +62,7 @@ export default function Users() {
     }
     const columns = ["Name Group", "Description", "Images", "Links", "Actions"]
     return (
-        <DashboardLayout>
+        <>
             <Breadcrumb pageName="New Users" />
             <div className="flex flex-col gap-10">
                 <PaginationNumber page={page} totalPages={totalPages} setPage={setPage} />
@@ -137,6 +137,6 @@ export default function Users() {
                     <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
                 </div>
             )}
-        </DashboardLayout>
+        </>
     )
 }

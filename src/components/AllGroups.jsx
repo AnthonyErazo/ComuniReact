@@ -45,147 +45,142 @@ export default function AllGroups() {
   }
   const columns = ["Name", "Description", "Links", "Background Image"]
   return (
-    <DashboardLayout>
-      <Breadcrumb pageName="All Groups" />
-      <div className="flex flex-col gap-10">
-        <PaginationNumber page={page} totalPages={totalPages} setPage={setPage} />
-        <div className="rounded-sm border px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
-          <div className="max-w-full overflow-x-auto">
-            <table className="w-full table-auto">
-              <thead>
-                <tr className="text-left bg-meta-4">
-                  {columns.map((colum, index) => (
-                    <th key={index} className="text-center min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
-                      {colum}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {groups.map((group, key) => (
-                  <tr key={key}>
-                    <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
-                      <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                        <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
-                          <img className='cursor-pointer' src={group.img?.ref||user} onClick={() => setSelectedImage(group.img?.ref||user)} alt={group.img?.name||'user'} />
-                        </div>
-                        <p className="hidden  text-white sm:block">
-                          {group.name}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="border-b  py-5 px-4 border-strokedark">
-                      <p className="text-white h-30 scroll-py-px overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
-                        {group.description}
-                      </p>
-                    </td>
-                    <td className="border-b flex flex-col py-5 px-4 border-strokedark">
-                      {group.linkFacebook && <p
-                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
-                      >
-                        {group.linkFacebook}
-                      </p>}
-                      {group.linkInstagram && <p
-                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
-                      >
-                        {group.linkInstagram}
-                      </p>}
-                      {group.linkWhatsapp && <p
-                        className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
-                      >
-                        {group.linkWhatsapp}
-                      </p>}
-                    </td>
-                    <td className="border-b  py-5 px-4 border-strokedark">
-                      <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
-                        <img onClick={() => setSelectedImage(group.background?.ref||background)} src={group.background?.ref||background} className='h-20 cursor-pointer w-full' alt={group.background?.name||'background'} />
-                        <button onClick={() => handleDeleteGroup(group._id)}>
-                          <FaTrash className='w-7 fill-primary bg-white p-1 rounded-lg' />
-                        </button>
-                      </div>
-                    </td>
+      <>
+        <Breadcrumb pageName="All Groups" />
+        <div className="flex flex-col gap-10">
+          <PaginationNumber page={page} totalPages={totalPages} setPage={setPage} />
+          <div className="rounded-sm border px-5 pt-6 pb-2.5 shadow-default border-strokedark bg-boxdark sm:px-7.5 xl:pb-1">
+            <div className="max-w-full overflow-x-auto">
+              <table className="w-full table-auto">
+                <thead>
+                  <tr className="text-left bg-meta-4">
+                    {columns.map((colum, index) => (
+                      <th key={index} className="text-center min-w-[220px] py-4 px-4 font-medium  text-white xl:pl-11">
+                        {colum}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        {/* <div className="flex flex-col text-white">
-            <div className="grid grid-cols-3 overflow-y-auto rounded-sm bg-meta-4 sm:grid-cols-6">
-              <div className="p-2.5 xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Name
-                </h5>
-              </div>
-              <div className="p-2.5 text-center xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Description
-                </h5>
-              </div>
-              <div className="p-2.5 text-center xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Link Facebook
-                </h5>
-              </div>
-              <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Link Instagram
-                </h5>
-              </div>
-              <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Link Whatsapp
-                </h5>
-              </div>
-              <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Background Image
-                </h5>
-              </div>
+                </thead>
+                <tbody>
+                  {groups.map((group, key) => (
+                    <tr key={key}>
+                      <td className="border-b  py-5 px-4 pl-9 border-strokedark xl:pl-11">
+                        <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                          <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
+                            <img className='cursor-pointer' src={group.img?.ref||user} onClick={() => setSelectedImage(group.img?.ref||user)} alt={group.img?.name||'user'} />
+                          </div>
+                          <p className="hidden  text-white sm:block">
+                            {group.name}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="border-b  py-5 px-4 border-strokedark">
+                        <p className="text-white h-30 scroll-py-px overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+                          {group.description}
+                        </p>
+                      </td>
+                      <td className="border-b flex flex-col py-5 px-4 border-strokedark">
+                        {group.linkFacebook && <p
+                          className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                        >
+                          {group.linkFacebook}
+                        </p>}
+                        {group.linkInstagram && <p
+                          className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                        >
+                          {group.linkInstagram}
+                        </p>}
+                        {group.linkWhatsapp && <p
+                          className={`inline-flex mt-2 rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
+                        >
+                          {group.linkWhatsapp}
+                        </p>}
+                      </td>
+                      <td className="border-b  py-5 px-4 border-strokedark">
+                        <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
+                          <img onClick={() => setSelectedImage(group.background?.ref||background)} src={group.background?.ref||background} className='h-20 cursor-pointer w-full' alt={group.background?.name||'background'} />
+                          <button onClick={() => handleDeleteGroup(group._id)}>
+                            <FaTrash className='w-7 fill-primary bg-white p-1 rounded-lg' />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-
-            {brandData.map((brand, key) => (
-              <div
-                className={`grid grid-cols-3 sm:grid-cols-5 ${key === brandData.length - 1
-                  ? ''
-                  : 'border-b  border-strokedark'
-                  }`}
-                key={key}
-              >
-                <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                  <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
-                    <img src={brand.logo} alt="profile" />
-                  </div>
-                  <p className="hidden  text-white sm:block">
-                    {brand.name}
-                  </p>
+          </div>
+          {/* <div className="flex flex-col text-white">
+              <div className="grid grid-cols-3 overflow-y-auto rounded-sm bg-meta-4 sm:grid-cols-6">
+                <div className="p-2.5 xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Name
+                  </h5>
                 </div>
-
-                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className=" text-white">{brand.visitors}K</p>
+                <div className="p-2.5 text-center xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Description
+                  </h5>
                 </div>
-
-                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-meta-5">${brand.revenues}</p>
+                <div className="p-2.5 text-center xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Link Facebook
+                  </h5>
                 </div>
-
-                <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                  <p className="text-meta-5">{brand.sales}</p>
+                <div className="hidden p-2.5 text-center sm:block xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Link Instagram
+                  </h5>
                 </div>
-
-                <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                  <img src={brand.logo} className='h-20 w-20' alt="profile" />
+                <div className="hidden p-2.5 text-center sm:block xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Link Whatsapp
+                  </h5>
+                </div>
+                <div className="hidden p-2.5 text-center sm:block xl:p-5">
+                  <h5 className="text-sm font-medium uppercase xsm:text-base">
+                    Background Image
+                  </h5>
                 </div>
               </div>
-            ))}
-          </div> */}
-        {selectedImage && (
-          <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
-            <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
-            <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
-          </div>
-        )}
-      </div>
-    </DashboardLayout>
+              {brandData.map((brand, key) => (
+                <div
+                  className={`grid grid-cols-3 sm:grid-cols-5 ${key === brandData.length - 1
+                    ? ''
+                    : 'border-b  border-strokedark'
+                    }`}
+                  key={key}
+                >
+                  <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                    <div className="h-15 w-15 flex items-center justify-center rounded-full overflow-hidden">
+                      <img src={brand.logo} alt="profile" />
+                    </div>
+                    <p className="hidden  text-white sm:block">
+                      {brand.name}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center p-2.5 xl:p-5">
+                    <p className=" text-white">{brand.visitors}K</p>
+                  </div>
+                  <div className="flex items-center justify-center p-2.5 xl:p-5">
+                    <p className="text-meta-5">${brand.revenues}</p>
+                  </div>
+                  <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                    <p className="text-meta-5">{brand.sales}</p>
+                  </div>
+                  <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                    <img src={brand.logo} className='h-20 w-20' alt="profile" />
+                  </div>
+                </div>
+              ))}
+            </div> */}
+          {selectedImage && (
+            <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
+              <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
+              <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
+            </div>
+          )}
+        </div>
+      </>
   )
 }

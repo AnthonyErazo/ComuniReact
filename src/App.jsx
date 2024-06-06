@@ -12,28 +12,32 @@ import MainGroups from "./components/MainGroups";
 import MainGroup from "./components/MainGroup";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import DashboardLayout from "./components/DashboardLayout";
+import PublicRouter from "./router/PublicRouter";
+import PrivateRouter from "./router/PrivateRouter";
 
 const App = () => (
   <Routes>
     <Route path="/" element={<MainLayout />} />
     <Route path="/groups" element={<MainGroups />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/login" element={<Login />} />
     <Route path="/groups/:gid" element={<MainGroup />} />
 
-    <Route path="/dashboard">
-      <Route path="">
+    <Route element={<PublicRouter />}>
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+    </Route>
+
+    <Route path="/dashboard" element={<PrivateRouter />}>
+      <Route element={<DashboardLayout />}>
         <Route path="inicio" element={<Dashboard />} />
         <Route path="myGroup" element={<MyGroup />} />
         <Route path="myNotices" element={<Notices />} />
+        <Route path="groups/allGroups" element={<AllGroups />} />
+        <Route path="groups/allNotices" element={<AllNotices />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="users" element={<Users />} />
+        <Route path="messages" element={<Messages />} />
       </Route>
-      <Route path="groups">
-        <Route path="allGroups" element={<AllGroups />} />
-        <Route path="allNotices" element={<AllNotices />} />
-      </Route>
-      <Route path="profile" element={<Profile />} />
-      <Route path="users" element={<Users />} />
-      <Route path="messages" element={<Messages />} />
     </Route>
   </Routes>
 );

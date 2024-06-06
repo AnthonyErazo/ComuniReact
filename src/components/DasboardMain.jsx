@@ -14,11 +14,15 @@ import { TbLogout2 } from 'react-icons/tb';
 import { FaUsersBetweenLines } from 'react-icons/fa6';
 import { logout } from '../services/authService';
 import { getDataUser } from '../services/userService';
+import Loading from './Loading';
+import { useAlert } from '../context/AlertContext';
+import { user } from '../assets';
 
 export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
+    const {addAlert}=useAlert();
     const { pathname } = location;
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [dataUser, setDataUser] = useState(false);
     const navigate = useNavigate()
 
@@ -31,20 +35,17 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
     );
     useEffect(() => {
         const fetchDataUser = async () => {
-            setLoading(true)
             try {
                 const data = await getDataUser()
-                console.log(data)
+                console.log('data: ',data)
                 setDataUser(data)
             } catch (error) {
                 console.error(error)
-                // if (error.response.data == 'Access forbidden') {
-                //     navigate('/login')
-                // }
+            }finally{
+                setLoading(false)
             }
         }
         fetchDataUser()
-        setLoading(false)
     }, [])
 
     useEffect(() => {
@@ -86,24 +87,17 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
             setLoading(true)
             try {
                 const data = await logout()
-                console.log(data)
+                addAlert('success',data.message)
                 navigate('/')
             } catch (error) {
                 console.error(error)
-                // const alertError = {
-                //     id_toast: new Date().toString(),
-                //     message: error.response.data.cause,
-                //     duration: 4600,
-                //     type: 'error',
-                //     status_code: 400
-                // };
-                // setAlert(alertError)
+                addAlert('error',error.message)
             }
         };
         fetchLogout();
         setLoading(false);
     };
-    if (loading) return <>hola</>
+    if (loading) return <Loading />
     return (
         <aside
             ref={sidebar}
@@ -111,11 +105,11 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
                 }`}
         >
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                <NavLink to="/dashboard/profile" className="flex items-center mt-8 gap-3">
+                <NavLink to={dataUser.name?'/dashboard/profile':'/dashboard/myGroup'} className="flex items-center mt-8 gap-3">
                     <div className="h-16 w-16 flex items-center justify-center bg-gray-200 rounded-full overflow-hidden">
-                        <img className='h-full w-full object-cover' src="https://scontent.flim33-1.fna.fbcdn.net/v/t39.30808-1/434493740_817644583724303_4719665726187510333_n.jpg?stp=cp0_dst-jpg_p60x60&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFLp_qEr10WEbtBGreQDCA3ClObpG6JhDwKU5ukbomEPHgP6wgtCTDdukrXks82XrlStVTCoKWcsbRRJLcxOt4O&_nc_ohc=GA_ySCRImhkQ7kNvgHWE95O&_nc_ht=scontent.flim33-1.fna&oh=00_AYDjwACGiJ6Y9GKYS2lmbC5186yWZxy_5EHun2RyrRb58g&oe=66635328" alt="Logo" />
+                        <img className='h-full w-full object-cover' src={dataUser.img||user} alt="profile" />
                     </div>
-                    <p className='w-40 text-white'>Centro Cultural Tecnologia de la uni</p>
+                    <p className='w-40 text-white'>{dataUser.name||'Crea tu grupo'}</p>
                 </NavLink>
 
                 <button

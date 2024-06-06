@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CardItem = ({ grupo, isLoading }) => {
     return (
-        <div className="flex justify-between flex-col px-10 py-12 rounded-[20px] max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
+        <div className="flex z-[1] justify-between flex-col px-10 py-12 rounded-[20px] max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
             {isLoading ? (
                 <>
                     <div className="w-[42.6px] h-[27.6px] bg-dimWhite rounded-lg mb-10"></div>

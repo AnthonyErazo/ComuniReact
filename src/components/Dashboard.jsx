@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 function Dashboard() {
   return (
-    <DashboardLayout>
       <div className="w-full h-[calc(95vh-45px)] flex flex-col gap-5 pt-4 justify-center">
         <div className="w-full overflow-hidden transition-all duration-300 ease-in-out flex justify-center">
           <div
@@ -47,7 +46,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   );
 }
 

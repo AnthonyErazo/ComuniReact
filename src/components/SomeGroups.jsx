@@ -96,13 +96,6 @@ function Testimonials() {
           </Swiper>
         </div>
       )}
-      {loading && (
-        <div className="flex flex-wrap sm:justify-start justify-center w-full feedback-container relative z-[1]">
-          {Array.from(new Array(5)).map((_, index) => (
-            <div key={index} className="w-full h-[300px] bg-gray-300 rounded-lg"></div>
-          ))}
-        </div>
-      )}
     </section>
   )
 };

@@ -4,16 +4,15 @@ import { MdEmail } from 'react-icons/md'
 import Button from "./Button";
 import { useState } from "react";
 import { createMessage } from "../services/messages";
-import Loading from "./Loading";
+import { useAlert } from "../context/AlertContext";
 
-const Footer = () => {
-  const [cycleComplete, setCycleComplete] = useState(true);
+const Footer = ({setLoading}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-  const [loading, setLoading] = useState(false);
+  const { addAlert }=useAlert();
   const resetForm = () => {
     setFormData({
       name: '',
@@ -27,14 +26,14 @@ const Footer = () => {
   const handleSendMessage = (e) => {
     e.preventDefault();
     const fetchSendMessage = async () => {
-      console.log(formData)
       setLoading(true)
-      cycleComplete(true)
       try {
         const data = await createMessage(formData)
-        console.log(data)
+        console.log(data.payload)
+        addAlert('success',data.payload)
       } catch (error) {
         console.error(error)
+        addAlert('error',error.message)
       } finally {
         resetForm();
         setLoading(false);
@@ -43,7 +42,6 @@ const Footer = () => {
     fetchSendMessage();
 
   };
-  if(loading||!cycleComplete) return <Loading words={["No vamos a responder..."]} cycleComplete={cycleComplete} setCycleComplete={setCycleComplete} />
   return (
     <>
       <section className={`${styles.flexCenter} ${styles.marginY} ${styles.padding} sm:flex-row flex-col bg-black-gradient-2 rounded-[20px] box-shadow`}>
@@ -68,11 +66,11 @@ const Footer = () => {
               <a href="#" className={`${styles.paragraph} font-semibold mb-4 no-underline flex gap-4`}><FaMapMarked className='w-5' /> Lima, Peru</a>
             </div>
           </div>
-          <form className='form-contact' action="#" autoComplete="off">
+          <form className='form-contact' onSubmit={handleSendMessage} autoComplete="off">
             <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Tu Nombre" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required />
             <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Tu Email" className="w-full p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required />
             <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Tu Mensaje..." className="w-full min-h-[140px] max-h-[150px] p-4 text-base border border-gray-300 mb-5 rounded-lg outline-none" required></textarea>
-            <button onClick={handleSendMessage} type="button" className={`py-4 px-6 font-poppins font-medium text-[18px] text-primary bg-blue-gradient rounded-[10px] outline-none`}>
+            <button type="sumbit" className={`py-4 px-6 font-poppins font-medium text-[18px] text-primary bg-blue-gradient rounded-[10px] outline-none`}>
               Enviar
             </button>
           </form>

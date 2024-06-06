@@ -6,6 +6,7 @@ import { addNoticeImage, eliminatedNoticeImage, getMyGroup, getNotices } from '.
 import { background, backgroundNotice, user } from '../assets';
 import { BiTrash } from 'react-icons/bi';
 import NoticeSectionDashboard from './NoticeSectionDashboard';
+import { useModal } from '../context/ModalContext';
 
 export default function Notices() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,7 @@ export default function Notices() {
   const [noticeImage, setNoticeImage] = useState(backgroundNotice);
   const [noticeFile, setNoticeFile] = useState(null);
   const [idGroup, setIdGroup] = useState(null);
+  const {openModal}=useModal()
   useEffect(() => {
     const fecthMyNotices = async () => {
       try {
@@ -70,7 +72,6 @@ export default function Notices() {
   };
   if(loading||loadingSection) return <>Loading...</>
   return (
-    <DashboardLayout>
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="My Notices" />
         <div className="mb-6 rounded-sm border  shadow-default border-strokedark bg-boxdark">
@@ -80,7 +81,7 @@ export default function Notices() {
             </h3>
           </div>
           <div className="p-7">
-            <form onSubmit={handleSubmitNotice}>
+            <form action='#'>
 
               <div className='flex items-center mb-2 sm:flex-row flex-col'>
                 <div
@@ -91,7 +92,6 @@ export default function Notices() {
                     type="file"
                     name="file"
                     accept="image/*"
-                    required
                     onChange={(e) => handleImageChange(e, setNoticeImage)}
                     className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                   />
@@ -148,8 +148,8 @@ export default function Notices() {
                 </button>
                 <button
                   className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                  type="submit"
-                  onClick={handleSubmitNotice}
+                  
+                  onClick={openModal}
                 >
                   Save
                 </button>
@@ -159,6 +159,5 @@ export default function Notices() {
         </div>
         <NoticeSectionDashboard idGroup={idGroup} setLoadingSection={setLoadingSection}/>
       </div>
-    </DashboardLayout>
   )
 }

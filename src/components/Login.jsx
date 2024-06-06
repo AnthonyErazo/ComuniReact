@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../services/authService';
+import Loading from './Loading';
+import { useAlert } from '../context/AlertContext';
 
 function Login() {
     const navigate=useNavigate()
+    const { addAlert } = useAlert();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -22,29 +25,21 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const fetchLogin = async () => {
-            console.log(formData)
             setLoading(true)
             try {
-                const data=await login(formData)
-                console.log(data)
+                const response=await login(formData)
+                addAlert('success',response.message)
                 navigate('/dashboard/inicio');
             } catch (error) {
                 console.error(error)
-                // const alertError = {
-                //     id_toast: new Date().toString(),
-                //     message: error.response.data.cause,
-                //     duration: 4600,
-                //     type: 'error',
-                //     status_code: 400
-                // };
-                // setAlert(alertError)
+                addAlert('error',error.response.data.message)
             }
         };
         fetchLogin();
         resetForm();
         setLoading(false);
     };
-    if(loading) return <>hola</>
+    if(loading) return <Loading />
     return (
         <div className="bg-primary">
             <div className="flex h-screen overflow-hidden">
@@ -202,6 +197,7 @@ function Login() {
                                                         onChange={handleChange}
                                                         value={formData.email}
                                                         type="email"
+                                                        required
                                                         placeholder="Enter your email"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
                                                     />
@@ -236,6 +232,7 @@ function Login() {
                                                         value={formData.password}
                                                         onChange={handleChange}
                                                         type="password"
+                                                        required
                                                         placeholder="6+ Characters, 1 Capital letter"
                                                         className="w-full rounded-lg border  bg-transparent py-4 pl-6 pr-10 outline-none  focus-visible:shadow-none border-form-strokedark bg-form-input text-white focus:border-primary"
                                                     />

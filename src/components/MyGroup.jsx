@@ -5,7 +5,10 @@ import { FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { IoLogoInstagram } from 'react-icons/io'
 import { AiFillEdit } from 'react-icons/ai'
 import { background, user } from '../assets'
-import { addImageGroup, getMyGroup, updateGroup } from '../services/groupService'
+import { addBackgroundGroup, addImageGroup, getMyGroup, updateGroup } from '../services/groupService'
+import Loading from './Loading'
+import { useModal } from '../context/ModalContext'
+import { useAlert } from '../context/AlertContext'
 
 export default function MyGroup() {
   const [backgroundImage, setBackgroundImage] = useState('');
@@ -14,6 +17,8 @@ export default function MyGroup() {
   const [profileFile, setProfileFile] = useState(null);
   const [loading, setLoading] = useState(true)
   const [myGroup, setMyGroup] = useState(null)
+  const { openModal } = useModal();
+  const { addAlert } = useAlert();
   const [formData, setFormData] = useState({
     name: '',
     linkFacebook: '',
@@ -83,13 +88,12 @@ export default function MyGroup() {
 
     try {
       setLoading(true);
-      const dataBackground = await addNoticeImage(images);
+      const dataBackground = await addBackgroundGroup(images);
       console.log(dataBackground);
     } catch (error) {
       console.error('Error adding notice image:', error);
     } finally {
-      setNoticeImage(backgroundNotice);
-      setNoticeFile(null);
+      setBackgroundFile(null);
       setLoading(false);
     }
   };
@@ -119,8 +123,8 @@ export default function MyGroup() {
       try {
         setLoading(true)
         const data = await getMyGroup()
-        setBackgroundImage(data.payload.background.ref||background)
-        setProfileImage(data.payload.img.ref||user)
+        setBackgroundImage(data?.payload?.background?.ref||background)
+        setProfileImage(data?.payload?.img?.ref||user)
         setMyGroup(data.payload)
         console.log(data.payload)
         setFormData({
@@ -139,9 +143,8 @@ export default function MyGroup() {
     }
     fecthMyGroup()
   }, [])
-  if (loading) return <>Loading...</>
+  if (loading) return <Loading />
   return (
-    <DashboardLayout>
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="My Group" />
 
@@ -158,7 +161,7 @@ export default function MyGroup() {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-white"
-                      htmlFor="nameGroup"
+                      htmlFor="name"
                     >
                       Name Group
                     </label>
@@ -191,8 +194,8 @@ export default function MyGroup() {
                       <input
                         className="w-full rounded border py-3 pl-11.5 pr-4.5 focus-visible:outline-none border-strokedark bg-meta-4 text-white focus:border-primary"
                         type="text"
-                        id="nameGroup"
-                        name="nameGroup"
+                        id="name"
+                        name="name"
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="My group"
@@ -323,7 +326,7 @@ export default function MyGroup() {
                       <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
                         <img
                           src={profileImage}
-                          alt={myGroup.img?.name || 'profile'} />
+                          alt={myGroup?.img?.name || 'profile'} />
                       </div>
                     </div>
                     <div>
@@ -410,7 +413,7 @@ export default function MyGroup() {
               <div className="relative z-20 h-35 md:h-65">
                 <img
                   src={backgroundImage}
-                  alt={myGroup.background?.name || 'background'}
+                  alt={myGroup?.background?.name || 'background'}
                   className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                 />
               </div>
@@ -499,6 +502,5 @@ export default function MyGroup() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   )
 }

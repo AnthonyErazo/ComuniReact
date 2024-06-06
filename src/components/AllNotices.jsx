@@ -51,7 +51,7 @@ export default function AllNotices() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   return (
-    <DashboardLayout>
+    <>
       <Breadcrumb pageName="All Notices" />
       <PaginationNumber />
       <section>
@@ -167,6 +167,6 @@ export default function AllNotices() {
           <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 }

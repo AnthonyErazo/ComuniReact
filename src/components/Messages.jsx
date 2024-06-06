@@ -62,7 +62,7 @@ export default function Messages() {
   const columns = ["Name", "Email", "Message", "Actions"]
   if (loading) return <>Loading...</>
   return (
-    <DashboardLayout>
+    <>
       <Breadcrumb pageName="Messages" />
       <div className="flex flex-col gap-10">
         <PaginationNumber totalPages={totalPages} page={page} setPage={setPage} />
@@ -113,6 +113,6 @@ export default function Messages() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }
