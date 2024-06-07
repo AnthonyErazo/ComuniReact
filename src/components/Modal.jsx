@@ -5,11 +5,11 @@ import { useModal } from '../context/ModalContext';
 import { BsExclamationTriangle } from 'react-icons/bs';
 
 export default function Modal() {
-    const { isModalOpen, closeModal } = useModal();
+    const { isModalOpen, modalContent, closeModal, acceptModal } = useModal();
 
     return (
         <Transition appear show={isModalOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Dialog as="div" className="relative z-9999" onClose={closeModal}>
                 <TransitionChild
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -19,7 +19,7 @@ export default function Modal() {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    <div className="fixed inset-0 bg-primary bg-opacity-75 transition-opacity" />
                 </TransitionChild>
 
                 <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -41,12 +41,11 @@ export default function Modal() {
                                         </div>
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                             <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                Deactivate account
+                                            {modalContent?.title}
                                             </DialogTitle>
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
-                                                    Are you sure you want to deactivate your account? All of your data will be permanently
-                                                    removed. This action cannot be undone.
+                                                {modalContent?.body}
                                                 </p>
                                             </div>
                                         </div>
@@ -56,16 +55,16 @@ export default function Modal() {
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                        onClick={closeModal}
+                                        onClick={acceptModal}
                                     >
-                                        Deactivate
+                                        {modalContent?.acceptText || 'Accept'}
                                     </button>
                                     <button
                                         type="button"
                                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={closeModal}
                                     >
-                                        Cancel
+                                        {modalContent?.cancelText || 'Cancel'}
                                     </button>
                                 </div>
                             </DialogPanel>

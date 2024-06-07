@@ -24,6 +24,7 @@ const endpoints = {
         getAll:`${API_BASE_URL}/groups/`,
         getById:(gid)=>`${API_BASE_URL}/groups/${gid}`,
         getNotices:(gid)=>`${API_BASE_URL}/groups/${gid}/notices`,
+        eliminatedAllNotices:(gid)=>`${API_BASE_URL}/groups/${gid}/notices/all`,
         getMyGroup:`${API_BASE_URL}/groups/data`,
         delete:(gid)=>`${API_BASE_URL}/groups/${gid}`,
         update:(gid)=>`${API_BASE_URL}/groups/${gid}`,

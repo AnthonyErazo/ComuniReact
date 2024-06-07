@@ -7,6 +7,7 @@ import { background, user } from '../assets';
 import { deleteGroup, getGroups } from '../services/groupService';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
+import { useModal } from '../context/ModalContext';
 
 export default function AllGroups() {
   const [groups, setGroups] = useState([]);
@@ -15,6 +16,7 @@ export default function AllGroups() {
   const [page, setPage] = useState(1)
   const [selectedImage, setSelectedImage] = useState(null);
   const { addAlert } = useAlert()
+  const { openModal } = useModal()
   const fecthAllGroups = async () => {
     try {
       const data = await getGroups(5, page, '{"status":true}')
@@ -122,10 +124,16 @@ export default function AllGroups() {
                       <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5 gap-5">
                         <img onClick={() => setSelectedImage(group.background?.ref || background)} src={group.background?.ref || background} className='h-20 cursor-pointer w-full' alt={group.background?.name || 'background'} />
                         <div className='flex flex-col gap-2'>
-                          <button onClick={() => handleChangeStatusGroup(group._id)}>
+                          <button onClick={()=>openModal({
+                            title:'Ocultar grupo',
+                            body:'¿Esta seguro de ocultar este grupo?'
+                          },() => handleChangeStatusGroup(group._id))}>
                             <FaExchangeAlt className='w-7 fill-primary bg-white p-1 rounded-lg' />
                           </button>
-                          <button onClick={() => handleDeleteGroup(group._id)}>
+                          <button onClick={()=>openModal({
+                            title:'Eliminar grupo',
+                            body:'Esta a punto de eliminar un grupo, se le enviara correo al propietario de este grupo'
+                          },() => handleDeleteGroup(group._id))}>
                             <FaTrash className='w-7 fill-primary bg-white p-1 rounded-lg' />
                           </button>
                         </div>

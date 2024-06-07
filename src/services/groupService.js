@@ -47,6 +47,12 @@ const eliminatedNoticeImage = async (gid,notice) => {
     });
     return response.data;
 };
+const eliminatedAllNoticeImage = async (gid) => {
+    const response = await axios.delete(endpoints.groups.eliminatedAllNotices(gid),{
+        withCredentials:true
+    });
+    return response.data;
+};
 const addImageGroup = async (images) => {
     const response = await axios.put(endpoints.groups.addImageGroup,images,{
         withCredentials:true,
@@ -66,4 +72,4 @@ const addBackgroundGroup = async (images) => {
     return response.data;
 };
 
-export {addBackgroundGroup,addImageGroup,eliminatedNoticeImage,addNoticeImage,getNotices, getGroups,getGroupbyId,updateGroup,deleteGroup,getMyGroup };
+export {addBackgroundGroup,addImageGroup,eliminatedNoticeImage,addNoticeImage,getNotices, getGroups,getGroupbyId,updateGroup,deleteGroup,getMyGroup,eliminatedAllNoticeImage };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import DashboardLayout from './DashboardLayout'
 import Breadcrumb from './Breadcrumb'
 import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
@@ -7,7 +6,7 @@ import { deleteMessage, getMessages, responseMessage } from '../services/message
 import { BiMessageAdd } from 'react-icons/bi';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
-import { useAuth } from '../context/AuthContext';
+import { useModal } from '../context/ModalContext';
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -15,12 +14,13 @@ export default function Messages() {
   const [totalPages, setTotalPages] = useState(null)
   const [page, setPage] = useState(1)
   const { addAlert } = useAlert()
+  const { openModal } = useModal()
 
   const fecthMessages = async () => {
     try {
       const data = await getMessages(5, page)
-      if(data.payload.length==0&&page>1){
-        setPage(page-1)
+      if (data.payload.length == 0 && page > 1) {
+        setPage(page - 1)
       }
       setTotalPages(data.totalPages)
       setMessages(data.payload);
@@ -43,15 +43,14 @@ export default function Messages() {
       } catch (error) {
         console.error('Error fetching delete message:', error);
         addAlert('error', error.response.data.message)
-      }finally{
+      } finally {
         fecthMessages()
       }
     };
 
     fecthDeleteMessage();
   }
-  const handleResponseMessage = (mid) => {
-    let message = "hola como estas"
+  const handleResponseMessage = (mid,message) => {
     const fecthResponseMessages = async () => {
       try {
         setLoading(true)
@@ -68,7 +67,7 @@ export default function Messages() {
     fecthResponseMessages();
   }
   const columns = ["Name", "Email", "Message", "Actions"]
-  if(loading) return <Loading dashboard />
+  if (loading) return <Loading dashboard />
   return (
     <>
       <Breadcrumb pageName="Messages" />
@@ -106,10 +105,21 @@ export default function Messages() {
                     </td>
                     <td className="border-b  py-5 px-4 border-strokedark">
                       <div className="flex items-center space-x-3.5 gap-5 justify-center">
-                        <button onClick={() => handleResponseMessage(message._id)} className="hover:text-primary">
+                        <button onClick={() => openModal(
+                          {
+                            title: 'Escriba el mensaje',
+                            body: <textarea name='responseMessage' id='responseMessage' className='w-60 sm:w-90 h-70 m-auto items-center justify-center ' placeholder='Escribe tu respuesta...' />
+                          },
+                          () => handleResponseMessage(message._id,document.getElementById('responseMessage').value))
+                        } className="hover:text-primary">
                           <BiMessageAdd className='fill-white' />
                         </button>
-                        <button onClick={() => handleDeleteMessage(message._id)} className="hover:text-primary">
+                        <button onClick={() => openModal( {
+                          title:'Eliminar mensaje',
+                          body:'¿Quiere eliminar este mensaje?'
+                        },
+                          ()=>handleDeleteMessage(message._id))
+                          } className="hover:text-primary">
                           <FaTrash className='fill-white' />
                         </button>
                       </div>

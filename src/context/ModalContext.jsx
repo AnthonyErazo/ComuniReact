@@ -8,13 +8,33 @@ export const useModal = () => {
 
 export const ModalProvider = ({ children }) => {
     const [isModalOpen, setModalOpen] = useState(false);
-    
 
-    const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
+    const [modalContent, setModalContent] = useState(null);
+    const [onAccept, setOnAccept] = useState(null);
+    const [onCancel, setOnCancel] = useState(null);
+
+    const openModal = (content, acceptCallback, cancelCallback) => {
+        setModalContent(content);
+        setOnAccept(() => acceptCallback);
+        setOnCancel(() => cancelCallback);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        if (onCancel) {
+            onCancel();
+        }
+    };
+    const acceptModal = () => {
+        setModalOpen(false);
+        if (onAccept) {
+            onAccept();
+        }
+    };
 
     return (
-        <ModalContext.Provider value={{ isModalOpen, openModal, closeModal }}>
+        <ModalContext.Provider value={{ isModalOpen, modalContent, openModal, closeModal, acceptModal }}>
             {children}
         </ModalContext.Provider>
     );

@@ -8,6 +8,7 @@ import { getAllUsers } from '../services/userService';
 import { deleteGroup, getGroups, updateGroup } from '../services/groupService';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
+import { useModal } from '../context/ModalContext';
 
 
 export default function Users() {
@@ -17,6 +18,7 @@ export default function Users() {
     const [totalPages, setTotalPages] = useState(null)
     const [page, setPage] = useState(1)
     const { addAlert } = useAlert()
+    const { openModal } = useModal()
     const fecthNewUsers = async () => {
         try {
             const data = await getGroups(5, page, '{"status":false}')
@@ -124,10 +126,18 @@ export default function Users() {
                                         </td>
                                         <td className="border-b  py-5 px-4 border-strokedark">
                                             <div className="flex items-center justify-center space-x-3.5 gap-5">
-                                                <button onClick={() => handleChangeStatusGroup(group._id)} className="hover:text-primary">
+                                                <button onClick={() =>openModal( {
+                                                    title:'Dejar de ocultar',
+                                                    body:'¿Desea hacer visible este grupo?'
+                                                },()=>handleChangeStatusGroup(group._id))
+                                                } className="hover:text-primary">
                                                     <FaExchangeAlt className='fill-white' />
                                                 </button>
-                                                <button onClick={() => handleDeleteGroup(group._id)} className="hover:text-primary">
+                                                <button onClick={() => openModal({
+                                                    title:'Eliminar grupo',
+                                                    body:'Esta a punto de eliminar un grupo, se le enviara correo al propietario de este grupo'
+                                                },()=>handleDeleteGroup(group._id))
+                                                } className="hover:text-primary">
                                                     <FaTrash className='fill-white' />
                                                 </button>
                                             </div>
