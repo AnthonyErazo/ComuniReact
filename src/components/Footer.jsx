@@ -29,7 +29,6 @@ const Footer = ({setLoading}) => {
       setLoading(true)
       try {
         const data = await createMessage(formData)
-        console.log(data.payload)
         addAlert('success',data.payload)
       } catch (error) {
         console.error(error)

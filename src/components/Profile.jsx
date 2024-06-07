@@ -4,38 +4,27 @@ import Breadcrumb from './Breadcrumb'
 import { Link } from 'react-router-dom';
 import { FaCamera, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { background, user } from '../assets';
-import { getMyGroup } from '../services/groupService';
 import { updateUser } from '../services/userService';
+import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 
 export default function Profile() {
-    const [loading,setLoading]=useState(true)
-    const [myGroup,setMyGroup]=useState(false)
+    const {user,setLoadingData}=useAuth()
+    const {addAlert}=useAlert()
     const [password,setPassword]=useState('')
     const [email,setEmail]=useState('')
-    useEffect(()=>{
-        const fecthMyGroup=async ()=>{
-            try{
-                const data=await getMyGroup()
-                setMyGroup(data.payload)
-            }catch (error){
-                console.error('Error fetching my group:', error)
-            }finally{
-                setLoading(false)
-            }
-        }
-        fecthMyGroup()
-    },[])
     const handleChangeEmail =(e)=>{
         e.preventDefault()
         const fecthChangeEmail=async()=>{
             try{
-                setLoading(true)
-                const data=await updateUser({email})
-                console.log(data)
+                setLoadingData(true)
+                const response=await updateUser({email})
+                addAlert('success',response.message)
             }catch (error){
                 console.error('Error fetching change email:', error)
+                addAlert('error',error.response.data.message)
             }finally{
-                setLoading(false)
+                setLoadingData(false)
             }
         }
         fecthChangeEmail()
@@ -45,27 +34,27 @@ export default function Profile() {
         e.preventDefault()
         const fecthChangePassword=async()=>{
             try{
-                setLoading(true)
-                const data=await updateUser({password})
-                console.log(data)
+                setLoadingData(true)
+                const response=await updateUser({password})
+                addAlert('success',response.message)
             }catch (error){
                 console.error('Error fetching change password:', error)
+                addAlert('error',error.response.data.message)
             }finally{
-                setLoading(false)
+                setLoadingData(false)
             }
         }
         fecthChangePassword()
         setPassword('')
     }
-    if(loading) return <>Loading...</>
     return (
         <>
             <Breadcrumb pageName="Profile" />
             <div className="overflow-hidden rounded-sm border shadow-default border-strokedark bg-boxdark">
                 <div className="relative z-20 h-35 md:h-65">
                     <img
-                        src={myGroup.background?.ref||background}
-                        alt={myGroup.background?.name||'background'}
+                        src={user.group.background?.ref||background}
+                        alt={user.group.background?.name||'background'}
                         className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
                     />
                     <Link to={'/dashboard/myGroup'} className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
@@ -85,7 +74,7 @@ export default function Profile() {
                     <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
                         <div className="relative drop-shadow-2">
                             <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
-                                <img src={myGroup.img?.ref||user} alt={myGroup.img?.name||"user"} />
+                                <img src={user.group.img?.ref||user} alt={user.group.img?.name||"user"} />
                             </div>
                             <label
                                 htmlFor="profile"
@@ -105,12 +94,12 @@ export default function Profile() {
                     </div>
                     <div className="mt-4">
                         <h3 className="mb-1.5 text-2xl font-semibold  text-white">
-                            {myGroup?.name||`'Nombre de su grupo'`}
+                            {user.group?.name||`'Nombre de su grupo'`}
                         </h3>
 
                         <div className="mx-auto max-w-180">
                             <p className="mt-4.5 text-white">
-                                {myGroup?.description||`'Descripcion de su grupo'`}
+                                {user.group?.description||`'Descripcion de su grupo'`}
                             </p>
                         </div>
 
@@ -119,24 +108,24 @@ export default function Profile() {
                                 My social networks
                             </h4>
                             <div className="flex items-center justify-center gap-8">
-                                {myGroup.linkFacebook&&<a
-                                    href={myGroup.linkFacebook} 
+                                {user.group.linkFacebook&&<a
+                                    href={user.group.linkFacebook} 
                                     target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
                                     <FaFacebookF className='fill-white w-6' />
                                 </a>}
-                                {myGroup.linkWhatsapp&&<a
-                                    href={myGroup.linkFacebook} 
+                                {user.group.linkWhatsapp&&<a
+                                    href={user.group.linkFacebook} 
                                     target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"
                                 >
                                     <FaWhatsapp className='fill-white w-6' />
                                 </a>}
-                                {myGroup.linkInstagram&&<a
-                                    href={myGroup.linkInstagram} 
+                                {user.group.linkInstagram&&<a
+                                    href={user.group.linkInstagram} 
                                     target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"

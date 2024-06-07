@@ -12,19 +12,13 @@ import { CgProfile } from 'react-icons/cg';
 import { LuMessagesSquare } from 'react-icons/lu';
 import { TbLogout2 } from 'react-icons/tb';
 import { FaUsersBetweenLines } from 'react-icons/fa6';
-import { logout } from '../services/authService';
-import { getDataUser } from '../services/userService';
-import Loading from './Loading';
-import { useAlert } from '../context/AlertContext';
 import { user } from '../assets';
+import { useAuth } from '../context/AuthContext';
 
 export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
-    const {addAlert}=useAlert();
+    const {user:dataUser,authLogout}=useAuth();
     const { pathname } = location;
-    const [loading, setLoading] = useState(true);
-    const [dataUser, setDataUser] = useState(false);
-    const navigate = useNavigate()
 
     const trigger = useRef(null);
     const sidebar = useRef(null);
@@ -33,20 +27,6 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
     const [sidebarExpanded, setSidebarExpanded] = useState(
         storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
     );
-    useEffect(() => {
-        const fetchDataUser = async () => {
-            try {
-                const data = await getDataUser()
-                console.log('data: ',data)
-                setDataUser(data)
-            } catch (error) {
-                console.error(error)
-            }finally{
-                setLoading(false)
-            }
-        }
-        fetchDataUser()
-    }, [])
 
     useEffect(() => {
         const clickHandler = ({ target }) => {
@@ -83,21 +63,8 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
 
     const handleLogout = (e) => {
         e.preventDefault();
-        const fetchLogout = async () => {
-            setLoading(true)
-            try {
-                const data = await logout()
-                addAlert('success',data.message)
-                navigate('/')
-            } catch (error) {
-                console.error(error)
-                addAlert('error',error.message)
-            }
-        };
-        fetchLogout();
-        setLoading(false);
+        authLogout()
     };
-    if (loading) return <Loading />
     return (
         <aside
             ref={sidebar}
@@ -105,11 +72,11 @@ export default function DashboardMain({ sidebarOpen, setSidebarOpen }) {
                 }`}
         >
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                <NavLink to={dataUser.name?'/dashboard/profile':'/dashboard/myGroup'} className="flex items-center mt-8 gap-3">
+                <NavLink to={dataUser.role=='user'?dataUser?.group?.name?'/dashboard/profile':'/dashboard/myGroup':'/dashboard/messages'} className="flex items-center mt-8 gap-3">
                     <div className="h-16 w-16 flex items-center justify-center bg-gray-200 rounded-full overflow-hidden">
-                        <img className='h-full w-full object-cover' src={dataUser.img||user} alt="profile" />
+                        <img className='h-full w-full object-cover' src={dataUser?.group?.img.ref||user} alt="profile" />
                     </div>
-                    <p className='w-40 text-white'>{dataUser.name||'Crea tu grupo'}</p>
+                    <p className='w-40 text-white'>{dataUser.role=='user'?dataUser?.group?.name||'Crea tu grupo':dataUser.name}</p>
                 </NavLink>
 
                 <button

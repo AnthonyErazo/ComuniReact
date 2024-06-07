@@ -2,49 +2,50 @@ import React, { useEffect, useState } from 'react'
 import { BiTrash } from 'react-icons/bi';
 import { eliminatedNoticeImage, getNotices } from '../services/groupService';
 import PaginationNumber from './PaginationNumber';
+import { useAlert } from '../context/AlertContext';
 
-function NoticeSectionDashboard({ idGroup,setLoadingSection }) {
+function NoticeSectionDashboard({ idGroup }) {
     const [loading, setLoading] = useState(true);
     const [myNotices, setMyNotices] = useState(null)
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
-    useEffect(() => {
-        const fecthMyNotices = async () => {
-            try {
-                setLoading(true)
-                const dataNotices = await getNotices(idGroup, 6, page)
-                setMyNotices(dataNotices.payload)
-                setTotalPages(dataNotices.totalPages)
-            } catch (error) {
-                console.error('Error fetching my group:', error)
-            } finally {
-                setLoading(false)
-            }
-
+    const { addAlert } = useAlert()
+    const fecthMyNotices = async () => {
+        try {
+            const dataNotices = await getNotices(idGroup, 6, page)
+            setMyNotices(dataNotices.payload)
+            setTotalPages(dataNotices.totalPages)
+        } catch (error) {
+            console.error('Error fetching my group:', error)
+        } finally {
+            setLoading(false)
         }
+
+    }
+    useEffect(() => {
         fecthMyNotices()
     }, [page]);
     const handleEliminatedNotice = async (notice) => {
         try {
-            setLoadingSection(true);
+            setLoading(true)
             const dataNotices = await eliminatedNoticeImage(idGroup, notice);
-            console.log(dataNotices);
+            fecthMyNotices()
+            addAlert('success', dataNotices.message)
         } catch (error) {
             console.error('Error adding notice image:', error);
-        } finally {
-            setLoadingSection(false);
+            addAlert('success', error.response.data.message)
         }
     };
     return (
         <>
+            <PaginationNumber page={page} setPage={setPage} totalPages={totalPages} />
             {loading ? (<section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5 animate-pulse'>
                 {[...Array(6)].map((_, index) => (
                     <div key={index} className="bg-dimWhite w-full h-[250px] sm:h-[400px] lg:h-[390px] rounded-lg"></div>
                 ))}
             </section>) : (
                 <>
-                    <PaginationNumber page={page} setPage={setPage} totalPages={totalPages} />
                     <section id="clients" className='grid grid-cols-2 lg:grid-cols-3 gap-5'>
                         {myNotices.map((notice, index) => (
                             <div key={index} className='relative'>

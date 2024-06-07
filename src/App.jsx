@@ -15,6 +15,9 @@ import Login from "./components/Login";
 import DashboardLayout from "./components/DashboardLayout";
 import PublicRouter from "./router/PublicRouter";
 import PrivateRouter from "./router/PrivateRouter";
+import { AuthProvider } from "./context/AuthContext";
+import UserRoute from "./router/UserRouter";
+import AdminRoute from "./router/AdminRouter";
 
 const App = () => (
   <Routes>
@@ -22,23 +25,31 @@ const App = () => (
     <Route path="/groups" element={<MainGroups />} />
     <Route path="/groups/:gid" element={<MainGroup />} />
 
-    <Route element={<PublicRouter />}>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+    <Route element={<AuthProvider />}>
+      <Route element={<PublicRouter />}>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+      <Route path="/dashboard" element={<PrivateRouter />}>
+        <Route element={<DashboardLayout />}>
+          <Route element={<UserRoute />}>
+            <Route path="inicio" element={<Dashboard />} />
+            <Route path="myGroup" element={<MyGroup />} />
+            <Route path="myNotices" element={<Notices />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route path="groups/allGroups" element={<AllGroups />} />
+            <Route path="groups/allNotices" element={<AllNotices />} />
+            <Route path="users" element={<Users />} />
+            <Route path="messages" element={<Messages />} />
+          </Route>
+        </Route>
+      </Route>
+
     </Route>
 
-    <Route path="/dashboard" element={<PrivateRouter />}>
-      <Route element={<DashboardLayout />}>
-        <Route path="inicio" element={<Dashboard />} />
-        <Route path="myGroup" element={<MyGroup />} />
-        <Route path="myNotices" element={<Notices />} />
-        <Route path="groups/allGroups" element={<AllGroups />} />
-        <Route path="groups/allNotices" element={<AllNotices />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="users" element={<Users />} />
-        <Route path="messages" element={<Messages />} />
-      </Route>
-    </Route>
+
   </Routes>
 );
 

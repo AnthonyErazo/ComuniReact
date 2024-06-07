@@ -5,27 +5,33 @@ import PaginationNumber from './PaginationNumber';
 import { FaTrash } from 'react-icons/fa';
 import { deleteMessage, getMessages, responseMessage } from '../services/messages';
 import { BiMessageAdd } from 'react-icons/bi';
+import Loading from './Loading';
+import { useAlert } from '../context/AlertContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Messages() {
-  const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(null)
   const [page, setPage] = useState(1)
+  const { addAlert } = useAlert()
 
-  useEffect(() => {
-    const fecthMessages = async () => {
-      try {
-        setLoading(true)
-        const data = await getMessages(5, page)
-        setTotalPages(data.totalPages)
-        setMessages(data.payload);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-      } finally {
-        setLoading(false);
+  const fecthMessages = async () => {
+    try {
+      const data = await getMessages(5, page)
+      if(data.payload.length==0&&page>1){
+        setPage(page-1)
       }
-    };
-
+      setTotalPages(data.totalPages)
+      setMessages(data.payload);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    setLoading(true)
     fecthMessages();
   }, [page]);
   const handleDeleteMessage = (mid) => {
@@ -33,34 +39,36 @@ export default function Messages() {
       try {
         setLoading(true)
         const data = await deleteMessage(mid)
-        console.log(data)
+        addAlert('success', data.message)
       } catch (error) {
         console.error('Error fetching delete message:', error);
-      } finally {
-        setLoading(false);
+        addAlert('error', error.response.data.message)
+      }finally{
+        fecthMessages()
       }
     };
 
     fecthDeleteMessage();
   }
   const handleResponseMessage = (mid) => {
-    let message="hola como estas"
+    let message = "hola como estas"
     const fecthResponseMessages = async () => {
       try {
         setLoading(true)
-        const data = await responseMessage(mid, {message})
-        console.log(data)
+        const data = await responseMessage(mid, { message })
+        addAlert('success', data.message)
       } catch (error) {
         console.error('Error fetching groups:', error);
+        addAlert('success', error.response.data.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
     fecthResponseMessages();
   }
   const columns = ["Name", "Email", "Message", "Actions"]
-  if (loading) return <>Loading...</>
+  if(loading) return <Loading dashboard />
   return (
     <>
       <Breadcrumb pageName="Messages" />

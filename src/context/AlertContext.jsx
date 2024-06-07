@@ -39,7 +39,7 @@ export const AlertProvider = ({ children }) => {
                         </svg>
                         <span className="sr-only">Info</span>
                     <div>
-                        <span className="font-medium">{alert.type === 'error' ? 'Danger alert!' : 'Success alert!'}</span> {alert.message}
+                        <span className="font-medium">{alert.type === 'error' ? 'Danger alert!' : 'Success alert!'}</span> {alert.type=='error'?alert.message||'Error inesperado':alert.message}
                     </div>
                     <div className="absolute bottom-0 left-0 h-1 w-full bg-gray-200">
                         <div className={`h-1 ${alert.type === 'error' ?'bg-red-800':'bg-green-800'} progress-bar`}></div>

@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../services/authService';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
-    const navigate=useNavigate()
+    const {updateUser}=useAuth()
     const { addAlert } = useAlert();
     const [formData, setFormData] = useState({
         email: '',
@@ -24,12 +25,12 @@ function Login() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         const fetchLogin = async () => {
-            setLoading(true)
             try {
                 const response=await login(formData)
                 addAlert('success',response.message)
-                navigate('/dashboard/inicio');
+                updateUser()
             } catch (error) {
                 console.error(error)
                 addAlert('error',error.response.data.message)

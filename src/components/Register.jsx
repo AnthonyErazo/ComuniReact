@@ -37,7 +37,6 @@ function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const fetchRegister = async () => {
-            console.log(formData)
             setLoading(true)
             if (formData.password!=formData.rePassword) {
                 setErrorPassword('Passwords do not match')

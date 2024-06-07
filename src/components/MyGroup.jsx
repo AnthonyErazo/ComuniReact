@@ -9,22 +9,24 @@ import { addBackgroundGroup, addImageGroup, getMyGroup, updateGroup } from '../s
 import Loading from './Loading'
 import { useModal } from '../context/ModalContext'
 import { useAlert } from '../context/AlertContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function MyGroup() {
-  const [backgroundImage, setBackgroundImage] = useState('');
-  const [profileImage, setProfileImage] = useState('');
+  const { user:dataUser,updateUser,setLoadingData } = useAuth();
+  const [backgroundImage, setBackgroundImage] = useState(dataUser.group.background.ref||background);
+  const [profileImage, setProfileImage] = useState(dataUser.group.img.ref||user);
   const [backgroundFile, setBackgroundFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [myGroup, setMyGroup] = useState(null)
   const { openModal } = useModal();
   const { addAlert } = useAlert();
   const [formData, setFormData] = useState({
-    name: '',
-    linkFacebook: '',
-    linkWhatsapp: '',
-    linkInstagram: '',
-    description: ''
+    name: dataUser.group.name,
+    linkFacebook: dataUser.group.linkFacebook,
+    linkWhatsapp: dataUser.group.linkWhatsapp,
+    linkInstagram: dataUser.group.linkInstagram,
+    description: dataUser.group.description
   });
 
   const handleImageChange = (e, setImage,setFile) => {
@@ -42,13 +44,13 @@ export default function MyGroup() {
     e.preventDefault()
     const fecthUpdategroup=async ()=>{
       try{
-        setLoading(true)
-        const data=await updateGroup(myGroup._id,formData)
-        console.log(data)
+        setLoadingData(true)
+        const response=await updateGroup(dataUser.group._id,formData)
+        addAlert('success',response.message)
+        updateUser()
       }catch (error){
         console.error('Error fetching my group:', error)
-      }finally{
-        setLoading(false)
+        addAlert('error',error.response.data.message)
       }
     }
     fecthUpdategroup()
@@ -59,27 +61,27 @@ export default function MyGroup() {
   const handleCancel = (e) => {
     e.preventDefault()
     setFormData({
-      name: myGroup.name,
-      linkFacebook: myGroup.linkFacebook,
-      linkWhatsapp: myGroup.linkWhatsapp,
-      linkInstagram: myGroup.linkInstagram,
-      description: myGroup.description
+      name: dataUser.group.name,
+      linkFacebook: dataUser.group.linkFacebook,
+      linkWhatsapp: dataUser.group.linkWhatsapp,
+      linkInstagram: dataUser.group.linkInstagram,
+      description: dataUser.group.description
     });
   };
   const handleCancelBackground = (e) => {
     e.preventDefault()
-    setBackgroundImage(myGroup.background.ref);
+    setBackgroundImage(dataUser.group.background.ref||background);
     setBackgroundFile(null)
   };
   const handleCancelProfile = (e) => {
     e.preventDefault()
-    setProfileImage(myGroup.img.ref);
+    setProfileImage(dataUser.group.img.ref||user);
     setProfileFile(null)
   };
   const handleChangeBackground = async (e) => {
     e.preventDefault()
     if (!backgroundFile) {
-      alert('Please select a different image before saving.');
+      addAlert('error','Selecciona una imagen diferente');
       return;
     }
 
@@ -87,20 +89,19 @@ export default function MyGroup() {
     images.append('file', backgroundFile);
 
     try {
-      setLoading(true);
+      setLoadingData(true)
       const dataBackground = await addBackgroundGroup(images);
-      console.log(dataBackground);
+      addAlert('success',dataBackground.message);
+      updateUser()
     } catch (error) {
-      console.error('Error adding notice image:', error);
-    } finally {
-      setBackgroundFile(null);
-      setLoading(false);
-    }
+      console.error('Error update background image:', error);
+      addAlert('success',error.response.data.message);
+    } 
   };
   const handleChangeProfile = async (e) => {
     e.preventDefault()
     if (!profileFile) {
-      alert('Please select a different image before saving.');
+      addAlert('error','Selecciona una imagen diferente');
       return;
     }
 
@@ -108,42 +109,15 @@ export default function MyGroup() {
     images.append('file', profileFile);
 
     try {
-      setLoading(true);
+      setLoadingData(true)
       const dataProfile = await addImageGroup(images);
-      console.log(dataProfile);
+      addAlert('success',dataProfile.message);
+      updateUser()
     } catch (error) {
-      console.error('Error adding notice image:', error);
-    } finally {
-      setProfileFile(null);
-      setLoading(false);
-    }
+      console.error('Error update profile image:', error);
+      addAlert('success',error.response.data.message);
+    } 
   };
-  useEffect(() => {
-    const fecthMyGroup = async () => {
-      try {
-        setLoading(true)
-        const data = await getMyGroup()
-        setBackgroundImage(data?.payload?.background?.ref||background)
-        setProfileImage(data?.payload?.img?.ref||user)
-        setMyGroup(data.payload)
-        console.log(data.payload)
-        setFormData({
-          name: data.payload.name,
-          linkFacebook: data.payload.linkFacebook,
-          linkWhatsapp: data.payload.linkWhatsapp,
-          linkInstagram: data.payload.linkInstagram,
-          description: data.payload.description
-        })
-      } catch (error) {
-        console.error('Error fetching my group:', error)
-      } finally {
-        setLoading(false)
-      }
-
-    }
-    fecthMyGroup()
-  }, [])
-  if (loading) return <Loading />
   return (
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="My Group" />

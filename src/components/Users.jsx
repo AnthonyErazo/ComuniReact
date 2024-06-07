@@ -6,6 +6,8 @@ import { FaExchangeAlt, FaTrash } from 'react-icons/fa';
 import { background, user } from '../assets';
 import { getAllUsers } from '../services/userService';
 import { deleteGroup, getGroups, updateGroup } from '../services/groupService';
+import Loading from './Loading';
+import { useAlert } from '../context/AlertContext';
 
 
 export default function Users() {
@@ -14,53 +16,59 @@ export default function Users() {
     const [groups, setGroups] = useState([]);
     const [totalPages, setTotalPages] = useState(null)
     const [page, setPage] = useState(1)
-    useEffect(() => {
-        const fecthNewUsers = async () => {
-            try {
-                setLoading(true)
-                const data = await getGroups(5, page,'{"status":false}')
-                setTotalPages(data.totalPages)
-                setGroups(data.payload);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            } finally {
-                setLoading(false);
+    const { addAlert } = useAlert()
+    const fecthNewUsers = async () => {
+        try {
+            const data = await getGroups(5, page, '{"status":false}')
+            if (data.payload.length == 0 && page > 1) {
+                setPage(page - 1)
             }
-        };
-
+            setTotalPages(data.totalPages)
+            setGroups(data.payload);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        setLoading(true)
         fecthNewUsers();
     }, [page]);
-    const handleChangeStatusGroup=(gid)=>{
+    const handleChangeStatusGroup = (gid) => {
         const fecthChangeStatus = async () => {
             try {
                 setLoading(true)
-                const data = await updateGroup(gid,{status:true})
-                console.log(data)
+                const data = await updateGroup(gid, { status: true })
+                addAlert('success', data.message)
             } catch (error) {
-                console.error('Error fetching group:', error);
+                console.error('Error fetching change group:', error);
+                addAlert('error', error.response.data.message)
             } finally {
-                setLoading(false);
+                fecthNewUsers()
             }
         };
 
         fecthChangeStatus();
     }
-    const handleDeleteGroup=(gid)=>{
+    const handleDeleteGroup = (gid) => {
         const fecthDeleteGroup = async () => {
             try {
                 setLoading(true)
                 const data = await deleteGroup(gid)
-                console.log(data)
+                addAlert('success', data.message)
             } catch (error) {
-                console.error('Error fetching group:', error);
+                console.error('Error fetching delete group:', error);
+                addAlert('error', error.response.data.message)
             } finally {
-                setLoading(false);
+                fecthNewUsers()
             }
         };
 
         fecthDeleteGroup();
     }
     const columns = ["Name Group", "Description", "Images", "Links", "Actions"]
+    if (loading) return <Loading dashboard />
     return (
         <>
             <Breadcrumb pageName="New Users" />
@@ -93,22 +101,22 @@ export default function Users() {
                                         </td>
                                         <td className="border-b  py-5 px-4 border-strokedark">
                                             <div className="hidden w-full p-7 items-center justify-center sm:flex xl:p-5 gap-5">
-                                                <img src={group.img?.ref||user} onClick={() => setSelectedImage(group.img?.ref||user)} className='h-20 w-full cursor-pointer' alt={group.img?.name||'user'} />
-                                                <img src={group.background?.ref||background} onClick={() => setSelectedImage(group.background?.ref||background)} className='h-20 w-full cursor-pointer' alt={group.background?.name||'background'} />
+                                                <img src={group.img?.ref || user} onClick={() => setSelectedImage(group.img?.ref || user)} className='h-20 w-full cursor-pointer' alt={group.img?.name || 'user'} />
+                                                <img src={group.background?.ref || background} onClick={() => setSelectedImage(group.background?.ref || background)} className='h-20 w-full cursor-pointer' alt={group.background?.name || 'background'} />
                                             </div>
                                         </td>
                                         <td className="border-b flex flex-col  py-5 px-4 border-strokedark gap-2">
-                                            {group.linkFacebook&&<p
+                                            {group.linkFacebook && <p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkFacebook}
                                             </p>}
-                                            {group.linkWhatsapp&&<p
+                                            {group.linkWhatsapp && <p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkWhatsapp}
                                             </p>}
-                                            {group.linkInstagram&&<p
+                                            {group.linkInstagram && <p
                                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
                                             >
                                                 {group.linkInstagram}
@@ -116,10 +124,10 @@ export default function Users() {
                                         </td>
                                         <td className="border-b  py-5 px-4 border-strokedark">
                                             <div className="flex items-center justify-center space-x-3.5 gap-5">
-                                                <button onClick={()=>handleChangeStatusGroup(group._id)} className="hover:text-primary">
+                                                <button onClick={() => handleChangeStatusGroup(group._id)} className="hover:text-primary">
                                                     <FaExchangeAlt className='fill-white' />
                                                 </button>
-                                                <button onClick={()=>handleDeleteGroup(group._id)} className="hover:text-primary">
+                                                <button onClick={() => handleDeleteGroup(group._id)} className="hover:text-primary">
                                                     <FaTrash className='fill-white' />
                                                 </button>
                                             </div>
@@ -132,7 +140,7 @@ export default function Users() {
                 </div>
             </div>
             {selectedImage && (
-                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50' onClick={() => setSelectedImage(null)}>
+                <div className='fixed z-[999999] inset-0 flex items-center justify-center bg-black bg-opacity-75' onClick={() => setSelectedImage(null)}>
                     <span className='absolute top-5 right-5 text-white text-4xl font-bold cursor-pointer'>&times;</span>
                     <img className='max-w-[750px] max-h-[auto] rounded-lg' src={selectedImage} alt="Noticia" />
                 </div>

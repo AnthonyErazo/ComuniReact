@@ -7,31 +7,16 @@ import { background, backgroundNotice, user } from '../assets';
 import { BiTrash } from 'react-icons/bi';
 import NoticeSectionDashboard from './NoticeSectionDashboard';
 import { useModal } from '../context/ModalContext';
+import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 
 export default function Notices() {
-  const [loading, setLoading] = useState(true);
-  const [loadingSection,setLoadingSection] = useState(true);
   const [noticeImage, setNoticeImage] = useState(backgroundNotice);
   const [noticeFile, setNoticeFile] = useState(null);
-  const [idGroup, setIdGroup] = useState(null);
+  const {addAlert}=useAlert()
+  const {user,setLoadingData}=useAuth()
   const {openModal}=useModal()
-  useEffect(() => {
-    const fecthMyNotices = async () => {
-      try {
-        setLoadingSection(true)
-        setLoading(true)
-        const data = await getMyGroup()
-        setIdGroup(data.payload._id)
-      } catch (error) {
-        console.error('Error fetching my group:', error)
-      } finally {
-        setLoading(false)
-        setLoadingSection(false)
-      }
 
-    }
-    fecthMyNotices()
-  }, []);
   const handleImageChange = (e, setImage) => {
     const file = e.target.files[0];
     if (file) {
@@ -48,10 +33,11 @@ export default function Notices() {
     setNoticeImage(backgroundNotice);
     setNoticeFile(null);
   };
+
   const handleSubmitNotice = async (e) => {
     e.preventDefault()
     if (!noticeFile) {
-      alert('Please select a different image before saving.');
+      addAlert('error','Selecciona una imagen diferente');
       return;
     }
 
@@ -59,18 +45,18 @@ export default function Notices() {
     images.append('file', noticeFile);
 
     try {
-      setLoading(true);
-      const dataNotices = await addNoticeImage(images);
-      console.log(dataNotices);
+      setLoadingData(true)
+      const response = await addNoticeImage(images);
+      addAlert('success',response.message);
     } catch (error) {
       console.error('Error adding notice image:', error);
+      addAlert('error',error.response.data.message);
     } finally {
       setNoticeImage(backgroundNotice);
       setNoticeFile(null);
-      setLoading(false);
+      setLoadingData(false)
     }
   };
-  if(loading||loadingSection) return <>Loading...</>
   return (
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="My Notices" />
@@ -81,7 +67,7 @@ export default function Notices() {
             </h3>
           </div>
           <div className="p-7">
-            <form action='#'>
+            <form onSubmit={handleSubmitNotice}>
 
               <div className='flex items-center mb-2 sm:flex-row flex-col'>
                 <div
@@ -149,7 +135,7 @@ export default function Notices() {
                 <button
                   className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
                   
-                  onClick={openModal}
+                  type='submit'
                 >
                   Save
                 </button>
@@ -157,7 +143,7 @@ export default function Notices() {
             </form>
           </div>
         </div>
-        <NoticeSectionDashboard idGroup={idGroup} setLoadingSection={setLoadingSection}/>
+        <NoticeSectionDashboard idGroup={user.group._id} />
       </div>
   )
 }

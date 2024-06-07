@@ -1,24 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import Loading from "../components/Loading";
-import { isAuthenticated } from "../utils/isAuthenticated";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import Loading from '../components/Loading';
 
 const PrivateRouter = () => {
-    const [isAuth, setIsAuth] = useState(null);
-
-    useEffect(() => {
-        const checkAuth = async () => {
-            const auth = await isAuthenticated();
-            setIsAuth(auth);
-        };
-        checkAuth();
-    }, []);
-
-    if (isAuth === null) {
-        return <Loading />;
-    }
-
-    return isAuth ? <Outlet /> : <Navigate to="/login" />;
+    const { user,loadingData } = useAuth();
+    if(loadingData) return <Loading />
+    return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRouter;
