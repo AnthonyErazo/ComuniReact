@@ -4,11 +4,12 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
 import { SomeGroups } from '.'
-import { useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { getGroupbyId, getNotices } from '../services/groupService'
 import PaginationNumber from './PaginationNumber'
 import NoticeSection from './NoticeSection'
 import Loading from './Loading'
+import { FaCamera, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 
 function MainGroup() {
     const { gid } = useParams()
@@ -49,56 +50,66 @@ function MainGroup() {
                     </div>
                 </div>
                 <div className={`bg-primary ${styles.flexStart} relative`}>
-                    <div className="absolute w-full h-full">
-                        <img
-                            src={grupo?.background.ref} alt={grupo?.background.name}
-                            className={`h-full w-full absolute object-cover object-center transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`}
-                        />
-                        <div className="absolute inset-0 flex flex-col justify-between z-1">
-                            <div className="bg-top-parabola h-[45%] w-full"></div>
-                            <div className="bg-bottom-parabola h-[45%] w-full"></div>
+                    <div className="overflow-hidden rounded-sm border shadow-custom-light bg-primary">
+                        <div className="relative z-20 h-35 md:h-65">
+                            <img
+                                src={grupo.background?.ref || background}
+                                alt={grupo.background?.name || 'background'}
+                                className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
+                            />
                         </div>
-                    </div>
-                    <div className={`${styles.boxWidth}`}>
-                        <section id="home" className={`flex md:flex-row flex-col ${styles.paddingY} items-center`}>
+                        <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
+                            <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
+                                <div className="relative drop-shadow-2">
+                                    <div className="h-full w-full flex items-center justify-center rounded-full overflow-hidden">
+                                        <img src={grupo.img?.ref || user} alt={grupo.img?.name || "user"} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <h3 className="mb-1.5 text-2xl font-semibold  text-white">
+                                    {grupo.name || `'Nombre de su grupo'`}
+                                </h3>
 
-                            <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6 z-[10] items-center md:items-start`}>
-                                <div className="flex flex-row justify-between items-center w-full">
-                                    <h1 className="flex-1 font-poppins text-center md:text-start font-semibold ss:text-[72px] text-[52px] text-white ss:leading-[100.8px] leading-[75px]">
-                                        <span className="text-gradient">{grupo?.name}</span>{" "}
-                                    </h1>
+                                <div className="mx-auto max-w-180">
+                                    <p className="mt-4.5 text-white">
+                                        {grupo.description || `'Descripcion de su grupo'`}
+                                    </p>
                                 </div>
-                                <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
-                                    {grupo?.description}
-                                </p>
-                                <div className={`flex m-auto gap-5`}>
-                                    {grupo?.linkFacebook && (
-                                        <a href={grupo.linkFacebook} target="_blank" rel="noopener noreferrer" className='text-white flex gap-2'>
-                                            <BsFacebook className='w-5' />
-                                            Facebook
-                                        </a>
-                                    )}
-                                    {grupo?.linkWhatsapp && (
-                                        <a href={grupo?.linkWhatsapp} target="_blank" rel="noopener noreferrer" className='text-white flex gap-2'>
-                                            <BsWhatsapp className='w-5' />
-                                            Whatsapp
-                                        </a>
-                                    )}
-                                    {grupo?.linkInstagram && (
-                                        <a href={grupo?.linkInstagram} target="_blank" rel="noopener noreferrer" className='text-white flex gap-2'>
-                                            <BsInstagram className='w-5' />
-                                            Instagram
-                                        </a>
-                                    )}
+
+                                <div className="mt-6.5">
+                                    <h4 className="mb-3.5 font-medium  text-white">
+                                        My social networks
+                                    </h4>
+                                    <div className="flex items-center justify-center gap-8">
+                                        {grupo.linkFacebook && <a
+                                            href={grupo.linkFacebook}
+                                            target="_blank"
+                                            className="hover:text-primary"
+                                            aria-label="social-icon"
+                                        >
+                                            <FaFacebookF className='fill-white w-6' />
+                                        </a>}
+                                        {grupo.linkWhatsapp && <a
+                                            href={grupo.linkFacebook}
+                                            target="_blank"
+                                            className="hover:text-primary"
+                                            aria-label="social-icon"
+                                        >
+                                            <FaWhatsapp className='fill-white w-6' />
+                                        </a>}
+                                        {grupo.linkInstagram && <a
+                                            href={grupo.linkInstagram}
+                                            target="_blank"
+                                            className="hover:text-primary"
+                                            aria-label="social-icon"
+                                        >
+                                            <FaInstagram className='fill-white w-6' />
+                                        </a>}
+                                    </div>
                                 </div>
                             </div>
-                            <div className={`flex-1 flex ${styles.flexCenter} md:my-0 my-10 relative`}>
-                                <div className="w-100 flex items-center justify-center rounded-full overflow-hidden z-[5]">
-                                    <img src={grupo?.img.ref} alt={grupo?.img.name} className="w-[100%] h-[100%]" />
-                                </div>
-                                <div className="absolute z-[1] w-[50%] h-[50%] rounded-full white__gradient bottom-30" />
-                            </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
                 <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
