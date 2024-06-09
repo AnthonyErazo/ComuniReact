@@ -4,7 +4,7 @@ import Breadcrumb from './Breadcrumb';
 import PaginationNumber from './PaginationNumber';
 import { FaExchangeAlt, FaTrash } from 'react-icons/fa';
 import { background, user } from '../assets';
-import { deleteGroup, getGroups } from '../services/groupService';
+import { deleteGroup, getGroups, updateGroup } from '../services/groupService';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
 import { useModal } from '../context/ModalContext';
