@@ -2,7 +2,9 @@ import axios from 'axios';
 import endpoints from '../config/apiconfig';
 
 const getAllUsers = async () => {
-    const response = await axios.get(endpoints.users.getAll);
+    const response = await axios.get(endpoints.users.getAll, {
+        withCredentials: true
+    });
     return response.data;
 };
 const getDataUser = async () => {
@@ -26,7 +28,9 @@ const updateUser = async (userData) => {
 };
 
 const deleteUser = async (id) => {
-    const response = await axios.delete(endpoints.users.delete(id));
+    const response = await axios.delete(endpoints.users.delete(id), {
+        withCredentials: true
+    });
     return response.data;
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { login } from '../services/authService';
 import Loading from './Loading';
 import { useAlert } from '../context/AlertContext';
@@ -23,22 +23,19 @@ function Login() {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true)
-        const fetchLogin = async () => {
-            try {
-                const response=await login(formData)
-                addAlert('success',response.message)
-                updateUser()
-            } catch (error) {
-                console.error(error)
-                addAlert('error',error.response.data.message)
-            }
-        };
-        fetchLogin();
-        resetForm();
-        setLoading(false);
+        try {
+            const response = await login(formData)
+            await updateUser()
+            addAlert('success', response.message)
+            resetForm()
+        } catch (error) {
+            addAlert('error', error.response?.data?.message || 'No se pudo iniciar sesión')
+        } finally {
+            setLoading(false)
+        }
     };
     if(loading) return <Loading />
     return (

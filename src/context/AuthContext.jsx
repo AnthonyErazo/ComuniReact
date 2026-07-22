@@ -21,7 +21,9 @@ export const AuthProvider = () => {
             const userData = await getDataUser();
             setUser(userData);
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            if (error.response?.status !== 403) {
+                console.error('Error fetching user data:', error);
+            }
             setUser(null);
         } finally {
             setLoadingData(false)
@@ -31,9 +33,7 @@ export const AuthProvider = () => {
         fetchAuthData();
     }, []);
 
-    const updateUser = () => {
-        fetchAuthData();
-    };
+    const updateUser = () => fetchAuthData();
 
     const authLogout = async () => {
         try {

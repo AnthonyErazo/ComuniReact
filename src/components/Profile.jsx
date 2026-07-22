@@ -117,7 +117,7 @@ export default function Profile() {
                                     <FaFacebookF className='fill-white w-6' />
                                 </a>}
                                 {user.group.linkWhatsapp&&<a
-                                    href={user.group.linkFacebook} 
+                                    href={user.group.linkWhatsapp}
                                     target="_blank"
                                     className="hover:text-primary"
                                     aria-label="social-icon"

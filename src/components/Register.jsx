@@ -26,35 +26,33 @@ function Register() {
     }
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const nextFormData = { ...formData, [name]: value };
+        setFormData(nextFormData);
 
-        if ((name === 'password'||name === 'rePassword') && value !== formData.password) {
+        if ((name === 'password' || name === 'rePassword') && nextFormData.rePassword && nextFormData.password !== nextFormData.rePassword) {
             setErrorPassword('Passwords do not match');
         } else {
             setErrorPassword('');
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const fetchRegister = async () => {
-            setLoading(true)
-            if (formData.password!=formData.rePassword) {
-                setErrorPassword('Passwords do not match')
-                setLoading(false)
-                return
-            }
-            try {
-                const data = await register({email:formData.email,password:formData.password})
-                addAlert('success',data.message)
-                navigate('/login');
-            } catch (error) {
-                console.error(error)
-                addAlert('error',error.response.data.message)
-            }
-        };
-        fetchRegister();
-        resetForm();
-        setLoading(false);
+        if (formData.password !== formData.rePassword) {
+            setErrorPassword('Passwords do not match')
+            return
+        }
+
+        setLoading(true)
+        try {
+            const data = await register({ email: formData.email, password: formData.password })
+            addAlert('success', data.message)
+            resetForm()
+            navigate('/login')
+        } catch (error) {
+            addAlert('error', error.response?.data?.message || 'No se pudo crear la cuenta')
+        } finally {
+            setLoading(false)
+        }
     };
     if (loading) return <Loading />
     return (
